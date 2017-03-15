@@ -38,9 +38,12 @@ public class Game
     private SurfaceHolder holder;
     private Resources resources;
 
-    //private Ball ball;
+    private Devil devil;
     //private Bat player;   ovde turi svoje objekte djavolak, peca djavolcica
     //private Bat opponent;
+
+    private int screenWidth;
+    private int screenHeight;
 
     private Paint textPaint;
     private Context context;
@@ -58,10 +61,12 @@ public class Game
         this.holder = holder;
         this.resources = resources;
         this.context = context;
+        this.screenHeight = height;
+        this.screenWidth = width;
 
         this.soundPool = new SoundPool(5, AudioManager.STREAM_MUSIC, 0);
 
-        //ball = new Ball(width, height);
+        devil = new Devil(width, height);
         //player = new Bat(width, height, Bat.Position.LEFT);
         //opponent = new Bat(width, height, Bat.Position.RIGHT);
 
@@ -76,93 +81,53 @@ public class Game
     public void init()
     {
 
-        Bitmap ballImage = BitmapFactory.decodeResource(resources, R.drawable.button);
-        Bitmap ballShadow = BitmapFactory.decodeResource(resources, R.drawable.buttonshadow);
+        Bitmap devilImage = BitmapFactory.decodeResource(resources, R.drawable.devil);
 
-        Bitmap batImage = BitmapFactory.decodeResource(resources, R.drawable.bat);
-        Bitmap batShadow = BitmapFactory.decodeResource(resources, R.drawable.batshadow);
+        devil.init(devilImage);
 
-        ball.init(ballImage, ballShadow);
-        player.init(batImage, batShadow);
-        opponent.init(batImage, batShadow);
+//        sounds[Sounds.START] = soundPool.load(context, R.raw.start, 1);
+//        sounds[Sounds.WIN] = soundPool.load(context, R.raw.win, 1);
+//        sounds[Sounds.LOSE] = soundPool.load(context, R.raw.lose, 1);
+//        sounds[Sounds.BOUNCE1] = soundPool.load(context, R.raw.bounce1, 1);
+//        sounds[Sounds.BOUNCE2] = soundPool.load(context, R.raw.bounce2, 1);
+//        MainActivity.mp = MediaPlayer.create(context, R.raw.labirinto);
+//        MainActivity.mp.setLooping(true);
+//        MainActivity.mp.start();
 
-        sounds[Sounds.START] = soundPool.load(context, R.raw.start, 1);
-        sounds[Sounds.WIN] = soundPool.load(context, R.raw.win, 1);
-        sounds[Sounds.LOSE] = soundPool.load(context, R.raw.lose, 1);
-        sounds[Sounds.BOUNCE1] = soundPool.load(context, R.raw.bounce1, 1);
-        sounds[Sounds.BOUNCE2] = soundPool.load(context, R.raw.bounce2, 1);
-        MainActivity.mp = MediaPlayer.create(context, R.raw.labirinto);
-        MainActivity.mp.setLooping(true);
-        MainActivity.mp.start();
-
-        soundPool.setOnLoadCompleteListener(new OnLoadCompleteListener()
-        {
-            public void onLoadComplete(SoundPool soundPool, int sampleId, int status)
-            {
-                if (sampleId == sounds[Sounds.START])
-                {
-                    soundPool.play(sounds[Sounds.START], 1, 1, 1, 0, 1);
-                }
-            }
-        });
+//        soundPool.setOnLoadCompleteListener(new OnLoadCompleteListener()
+//        {
+//            public void onLoadComplete(SoundPool soundPool, int sampleId, int status)
+//            {
+//                if (sampleId == sounds[Sounds.START])
+//                {
+//                    soundPool.play(sounds[Sounds.START], 1, 1, 1, 0, 1);
+//                }
+//            }
+//        });
     }
 
     public void update(long elapsed)
     {
-
         if (state == State.RUNNING)
         {
-            if ((System.currentTimeMillis() - startTime) > 5000)
-            {
-                ball.speedUp();
-                opponent.speedUp();
-                startTime = System.currentTimeMillis();
-            }
+//            if ((System.currentTimeMillis() - startTime) > 5000)
+//            {
+//                ball.speedUp();
+//                opponent.speedUp();
+//                startTime = System.currentTimeMillis();
+//            }
             updateGame(elapsed);
         }
     }
 
     private void initObjectPositions()
     {
-        ball.InitPosition();
-        player.initPosition();
-        opponent.initPosition();
+        devil.initPosition();
     }
 
     public void updateGame(long elapsed)
     {
-        if (player.getScreenRect().contains(ball.getScreenRect().left, ball.getScreenRect().centerY()))
-        {
-            ball.moveRight();
-            soundPool.play(sounds[Sounds.BOUNCE1], 1, 1, 1, 0, 1);
-        }
-        else if (opponent.getScreenRect().contains(ball.getScreenRect().right, ball.getScreenRect().centerY()))
-        {
-            ball.moveLeft();
-            soundPool.play(sounds[Sounds.BOUNCE2], 1, 1, 1, 0, 1);
-        }
-        else if (ball.getScreenRect().left < player.getScreenRect().right)
-        {
-            state = State.LOST;
-            soundPool.play(sounds[Sounds.LOSE], 1, 1, 1, 0, 1);
-            initObjectPositions();
-            loses++;
-            difficult = 0;
-        }
-        else if (ball.getScreenRect().right > opponent.getScreenRect().left)
-        {
-            state = State.WON;
-            soundPool.play(sounds[Sounds.WIN], 1, 1, 1, 0, 1);
-            initObjectPositions();
-            wins++;
-            difficult++;
-            if (difficult > 4)
-            {
-                opponent.speedUp();
-            }
-        }
-        ball.update(elapsed);
-        opponent.update(elapsed, ball);
+        devil.update(elapsed);
     }
 
     private void drawText(Canvas canvas, String text)
@@ -190,8 +155,6 @@ public class Game
                         drawText(canvas, "You'r NOOB!");
                         wins = 0;
                         loses = 0;
-                        ball.ressetSpeed();
-                        opponent.ressetSpeed();
                     }
                     break;
                 case PAUSED:
@@ -210,8 +173,6 @@ public class Game
                         drawText(canvas, "You'r the GOD!");
                         wins = 0;
                         loses = 0;
-                        ball.ressetSpeed();
-                        opponent.ressetSpeed();
                     }
                     break;
                 default:
@@ -225,10 +186,7 @@ public class Game
 
     private void drawGame(Canvas canvas)
     {
-
-        ball.draw(canvas);
-        player.draw(canvas);
-        opponent.draw(canvas);
+        devil.draw(canvas);
         drawScore(canvas);
     }
 
@@ -242,7 +200,14 @@ public class Game
     {
         if (state == State.RUNNING)
         {
-            player.setPosition(event.getY());
+            if(event.getY() < this.screenHeight / 2)
+            {
+                devil.moveUp();
+            }
+            else
+            {
+                devil.moveDown();
+            }
         }
         else
         {

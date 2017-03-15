@@ -18,7 +18,6 @@ public class Sprite
     private int screenHeight;
 
     private Bitmap image;
-    private Bitmap shadow;
 
     private Rect bounds;
 
@@ -31,17 +30,15 @@ public class Sprite
         this.screenHeight = screenHeight;
     }
 
-    public void init(Bitmap image, Bitmap shadow)
+    public void init(Bitmap image)
     {
         this.image = image;
-        this.shadow = shadow;
 
         bounds = new Rect(0, 0, image.getWidth(), image.getHeight());
     }
 
     public void draw(Canvas canvas)
     {
-        canvas.drawBitmap(shadow, x, y, null);
         canvas.drawBitmap(image, x, y, null);
     }
 

@@ -8,16 +8,15 @@ import android.graphics.Bitmap;
 
 public class Devil extends Sprite
 {
-    public Devil(int screenWidth, int screenHeight, Position position)
+    public Devil(int screenWidth, int screenHeight)
     {
         super(screenWidth, screenHeight);
-        this.position = position;
     }
 
     @Override
-    public void init(Bitmap image, Bitmap shadow)
+    public void init(Bitmap image)
     {
-        super.init(image, shadow);
+        super.init(image);
 
         initPosition();
     }
@@ -27,5 +26,24 @@ public class Devil extends Sprite
         setY(getScreenHeight() / 2 - getRect().centerY());
     }
 
+    public void update(long elapsed)
+    {
+        // Aleksa TODO:
+    }
 
+    public void moveUp()
+    {
+        if (this.getY() > 0)
+        {
+            setY(getY() - 1);
+        }
+    }
+
+    public void moveDown()
+    {
+        if (this.getY() < getScreenHeight())
+        {
+            setY(getY() + 1);
+        }
+    }
 }
