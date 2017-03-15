@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/activity_main_menu"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/background">
+
+    <LinearLayout
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_centerVertical="true"
+        android:layout_centerHorizontal="true"
+        android:orientation="vertical">
+
+        <RelativeLayout
+            android:id="@+id/rlStartGame"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <TextView
+                android:textSize="@dimen/button_text_size"
+                android:text="@string/start_game"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:id="@+id/tvStartGame"/>
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:id="@+id/rlStatistics"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <TextView
+                android:textSize="@dimen/button_text_size"
+                android:text="@string/statistics"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:id="@+id/tvStatistics"/>
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:id="@+id/rlOptions"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <TextView
+                android:textSize="@dimen/button_text_size"
+                android:text="@string/options"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:id="@+id/tvOptions"/>
+        </RelativeLayout>
+
+    </LinearLayout>
+
+</RelativeLayout>
