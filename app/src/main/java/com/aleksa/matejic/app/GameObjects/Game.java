@@ -23,6 +23,11 @@ import android.view.SurfaceHolder;
 import com.aleksa.matejic.app.MainActivity;
 import com.aleksa.matejic.app.R;
 
+import java.util.Iterator;
+import java.util.LinkedList;
+import java.util.List;
+import java.util.Random;
+
 public class Game
 {
 
@@ -39,8 +44,13 @@ public class Game
     private Resources resources;
 
     private Devil devil;
+    private LinkedList<Cloud> clouds;
+    private Iterator<Cloud> iterator;
     //private Bat player;   ovde turi svoje objekte djavolak, peca djavolcica
     //private Bat opponent;
+
+    Bitmap whiteCloudImage;
+    Bitmap blackCloudImage;
 
     private int screenWidth;
     private int screenHeight;
@@ -50,11 +60,18 @@ public class Game
 
     private int[] sounds = new int[5];
     private long startTime;
+    private long cloudTime;
+    private long pecaTime;
+
+    private int cloudShowUpSpeed;
+    private int cloudShowUp;
 
     private int wins;
     private int loses;
 
     private int difficult;
+
+    private Random rnd;
 
     public Game(Context context, int width, int height, SurfaceHolder holder, Resources resources)
     {
@@ -67,6 +84,8 @@ public class Game
         this.soundPool = new SoundPool(5, AudioManager.STREAM_MUSIC, 0);
 
         devil = new Devil(width, height);
+        clouds = new LinkedList<>();
+        rnd = new Random();
         //player = new Bat(width, height, Bat.Position.LEFT);
         //opponent = new Bat(width, height, Bat.Position.RIGHT);
 
@@ -82,6 +101,8 @@ public class Game
     {
 
         Bitmap devilImage = BitmapFactory.decodeResource(resources, R.drawable.devil);
+        whiteCloudImage = BitmapFactory.decodeResource(resources, R.drawable.white_cloud);
+        blackCloudImage = BitmapFactory.decodeResource(resources, R.drawable.black_cloud);
 
         devil.init(devilImage);
 
@@ -108,14 +129,21 @@ public class Game
 
     public void update(long elapsed)
     {
-        if (state == State.RUNNING)
-        {
-//            if ((System.currentTimeMillis() - startTime) > 5000)
-//            {
-//                ball.speedUp();
-//                opponent.speedUp();
-//                startTime = System.currentTimeMillis();
-//            }
+        if (state == State.RUNNING) {
+            if (System.currentTimeMillis() - cloudTime > 60 ) {
+                if (rnd.nextInt(cloudShowUpSpeed) < cloudShowUp) {
+                    //ball.speedUp();
+                    //opponent.speedUp();
+                    Cloud cloud = new Cloud(screenWidth, screenHeight);
+                    if(rnd.nextInt(2) == 0)
+                        cloud.init(blackCloudImage);
+                    else
+                        cloud.init(whiteCloudImage);
+                    clouds.add(cloud);
+                }
+                cloudTime = System.currentTimeMillis();
+            }
+            //if()
             updateGame(elapsed);
         }
     }
@@ -127,7 +155,25 @@ public class Game
 
     public void updateGame(long elapsed)
     {
+
         devil.update(elapsed);
+        Cloud cloud=null;
+        iterator = clouds.iterator();
+        while(iterator.hasNext()){
+            cloud = iterator.next();
+            if (devil.getScreenRect().contains(cloud.getScreenRect().left, cloud.getScreenRect().centerY()) ||
+                    devil.getScreenRect().contains(cloud.getScreenRect().right, cloud.getScreenRect().centerY()) //||
+                    //devil.getScreenRect().contains((int)cloud.getY(), cloud.getScreenRect().centerX()) ||
+                    //devil.getScreenRect().contains((int)cloud.getY()+cloud.getScreenRect().height(), cloud.getScreenRect().centerX())
+                    ) {
+                iterator.remove();
+            }else
+            if(cloud.getX() > ((-cloud.getScreenRect().width())))
+                cloud.update(elapsed);
+            else {
+                iterator.remove();
+            }
+        }
     }
 
     private void drawText(Canvas canvas, String text)
@@ -187,6 +233,9 @@ public class Game
     private void drawGame(Canvas canvas)
     {
         devil.draw(canvas);
+        for(Cloud cloud : clouds){
+            cloud.draw(canvas);
+        }
         drawScore(canvas);
     }
 
@@ -213,6 +262,10 @@ public class Game
         {
             state = State.RUNNING;
             startTime = System.currentTimeMillis();
+            cloudTime = System.currentTimeMillis();
+            pecaTime = System.currentTimeMillis();
+            cloudShowUpSpeed = 30000;
+            cloudShowUp = 2000;
         }
     }
 

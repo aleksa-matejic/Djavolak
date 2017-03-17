@@ -35,7 +35,7 @@ public class Devil extends Sprite
     {
         if (this.getY() > 0)
         {
-            setY(getY() - 1);
+            setY(getY() - 6);
         }
     }
 
@@ -43,7 +43,7 @@ public class Devil extends Sprite
     {
         if (this.getY() < getScreenHeight())
         {
-            setY(getY() + 1);
+            setY(getY() + 6);
         }
     }
 }
