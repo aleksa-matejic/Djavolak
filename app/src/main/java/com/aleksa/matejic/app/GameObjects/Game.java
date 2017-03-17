@@ -46,11 +46,16 @@ public class Game
     private Devil devil;
     private LinkedList<Cloud> clouds;
     private Iterator<Cloud> iterator;
+    private GuardianAngel peca;
+    private Arrow arrow;
     //private Bat player;   ovde turi svoje objekte djavolak, peca djavolcica
     //private Bat opponent;
 
     Bitmap whiteCloudImage;
     Bitmap blackCloudImage;
+    Bitmap pecaImage;
+    Bitmap pecaImageNoArrow;
+    Bitmap arrowImage;
 
     private int screenWidth;
     private int screenHeight;
@@ -65,6 +70,7 @@ public class Game
 
     private int cloudShowUpSpeed;
     private int cloudShowUp;
+    private int rndTime;
 
     private int wins;
     private int loses;
@@ -85,6 +91,8 @@ public class Game
 
         devil = new Devil(width, height);
         clouds = new LinkedList<>();
+        peca = new GuardianAngel(width,height);
+        arrow = new Arrow(width,height);
         rnd = new Random();
         //player = new Bat(width, height, Bat.Position.LEFT);
         //opponent = new Bat(width, height, Bat.Position.RIGHT);
@@ -103,8 +111,15 @@ public class Game
         Bitmap devilImage = BitmapFactory.decodeResource(resources, R.drawable.devil);
         whiteCloudImage = BitmapFactory.decodeResource(resources, R.drawable.white_cloud);
         blackCloudImage = BitmapFactory.decodeResource(resources, R.drawable.black_cloud);
+        pecaImage = BitmapFactory.decodeResource(resources, R.drawable.guardian_angel);
+        pecaImageNoArrow = BitmapFactory.decodeResource(resources, R.drawable.guardian_angel_without_arrow);
+        arrowImage = BitmapFactory.decodeResource(resources, R.drawable.arrow);
+
+        rndTime = rnd.nextInt(3000);
 
         devil.init(devilImage);
+        peca.init(pecaImage);
+        arrow.init(arrowImage);
 
 //        sounds[Sounds.START] = soundPool.load(context, R.raw.start, 1);
 //        sounds[Sounds.WIN] = soundPool.load(context, R.raw.win, 1);
@@ -180,6 +195,24 @@ public class Game
                 iterator.remove();
             }
         }
+        if((System.currentTimeMillis() - pecaTime) > 7000 + rndTime )
+        {
+            peca.update(elapsed);
+            if(peca.getX()<screenWidth-300 && peca.getWay()==1){
+                peca.setImage(pecaImageNoArrow);
+                peca.setWay(-1);
+                arrow.initPosition(peca.getX(),peca.getY()-50);
+                arrow.setMove(true);
+            }
+            if(peca.getX()>screenWidth && peca.getWay()==-1){
+                peca.setImage(pecaImage);
+                peca.setWay(1);
+                pecaTime=System.currentTimeMillis();
+                rndTime=rnd.nextInt(3000);
+            }
+
+        }
+        arrow.update(elapsed);
     }
 
     private void drawText(Canvas canvas, String text)
@@ -243,6 +276,12 @@ public class Game
         {
             cloud.draw(canvas);
         }
+        if((System.currentTimeMillis() - pecaTime) > 7000 + rndTime )
+        {
+            peca.draw(canvas);
+        }
+        if(arrow.isMove())
+            arrow.draw(canvas);
         drawScore(canvas);
     }
 
