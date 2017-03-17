@@ -43,6 +43,7 @@ public class Game
     private SurfaceHolder holder;
     private Resources resources;
 
+    private Background background;
     private Devil devil;
     private LinkedList<Cloud> clouds;
     private Iterator<Cloud> iterator;
@@ -89,6 +90,7 @@ public class Game
 
         this.soundPool = new SoundPool(5, AudioManager.STREAM_MUSIC, 0);
 
+        background = new Background(screenWidth, screenHeight);
         devil = new Devil(width, height);
         clouds = new LinkedList<>();
         peca = new GuardianAngel(width,height);
@@ -109,6 +111,7 @@ public class Game
     {
 
         Bitmap devilImage = BitmapFactory.decodeResource(resources, R.drawable.devil);
+        Bitmap backgroundImage = BitmapFactory.decodeResource(resources, R.drawable.game_background);
         whiteCloudImage = BitmapFactory.decodeResource(resources, R.drawable.white_cloud);
         blackCloudImage = BitmapFactory.decodeResource(resources, R.drawable.black_cloud);
         pecaImage = BitmapFactory.decodeResource(resources, R.drawable.guardian_angel);
@@ -117,6 +120,7 @@ public class Game
 
         rndTime = rnd.nextInt(3000);
 
+        background.init(backgroundImage);
         devil.init(devilImage);
         peca.init(pecaImage);
         arrow.init(arrowImage);
@@ -173,7 +177,7 @@ public class Game
 
     public void updateGame(long elapsed)
     {
-
+        background.update(15);
         devil.update(elapsed);
         Cloud cloud = null;
         iterator = clouds.iterator();
@@ -271,6 +275,7 @@ public class Game
 
     private void drawGame(Canvas canvas)
     {
+        background.draw(canvas);
         devil.draw(canvas);
         for (Cloud cloud : clouds)
         {

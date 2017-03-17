@@ -63,7 +63,6 @@ public class Background extends Sprite
         // for the regular bitmap
         Rect fromRect1 = new Rect(0, 0, image.getWidth() - xClip, getScreenHeight());
         Rect toRect1 = new Rect(xClip, 0, image.getWidth(), getScreenHeight());
-        System.out.println(xClip);
 
         // for the reversed background
         Rect fromRect2 = new Rect(image.getWidth() - xClip, 0, image.getWidth(), getScreenHeight());

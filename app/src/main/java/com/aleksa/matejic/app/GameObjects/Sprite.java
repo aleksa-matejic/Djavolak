@@ -17,7 +17,7 @@ public class Sprite
     private int screenWidth;
     private int screenHeight;
 
-    private Bitmap image;
+    protected Bitmap image;
 
     private Rect bounds;
 
