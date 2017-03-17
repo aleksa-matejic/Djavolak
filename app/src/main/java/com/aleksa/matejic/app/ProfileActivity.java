@@ -1,5 +1,6 @@
 package com.aleksa.matejic.app;
 
+import android.app.Activity;
 import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -9,7 +10,7 @@ import android.widget.TextView;
 
 import com.aleksa.matejic.app.utils.SharedPreferencesStore;
 
-public class ProfileActivity extends AppCompatActivity
+public class ProfileActivity extends Activity
 {
     // private TextView tvPlayerName;
     private RelativeLayout rlPlayGame;

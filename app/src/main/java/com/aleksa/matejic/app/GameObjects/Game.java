@@ -129,13 +129,16 @@ public class Game
 
     public void update(long elapsed)
     {
-        if (state == State.RUNNING) {
-            if (System.currentTimeMillis() - cloudTime > 60 ) {
-                if (rnd.nextInt(cloudShowUpSpeed) < cloudShowUp) {
+        if (state == State.RUNNING)
+        {
+            if (System.currentTimeMillis() - cloudTime > 60)
+            {
+                if (rnd.nextInt(cloudShowUpSpeed) < cloudShowUp)
+                {
                     //ball.speedUp();
                     //opponent.speedUp();
                     Cloud cloud = new Cloud(screenWidth, screenHeight);
-                    if(rnd.nextInt(2) == 0)
+                    if (rnd.nextInt(2) == 0)
                         cloud.init(blackCloudImage);
                     else
                         cloud.init(whiteCloudImage);
@@ -157,20 +160,23 @@ public class Game
     {
 
         devil.update(elapsed);
-        Cloud cloud=null;
+        Cloud cloud = null;
         iterator = clouds.iterator();
-        while(iterator.hasNext()){
+        while (iterator.hasNext())
+        {
             cloud = iterator.next();
             if (devil.getScreenRect().contains(cloud.getScreenRect().left, cloud.getScreenRect().centerY()) ||
                     devil.getScreenRect().contains(cloud.getScreenRect().right, cloud.getScreenRect().centerY()) //||
-                    //devil.getScreenRect().contains((int)cloud.getY(), cloud.getScreenRect().centerX()) ||
-                    //devil.getScreenRect().contains((int)cloud.getY()+cloud.getScreenRect().height(), cloud.getScreenRect().centerX())
-                    ) {
+                //devil.getScreenRect().contains((int)cloud.getY(), cloud.getScreenRect().centerX()) ||
+                //devil.getScreenRect().contains((int)cloud.getY()+cloud.getScreenRect().height(), cloud.getScreenRect().centerX())
+                    )
+            {
                 iterator.remove();
-            }else
-            if(cloud.getX() > ((-cloud.getScreenRect().width())))
+            }
+            else if (cloud.getX() > ((-cloud.getScreenRect().width())))
                 cloud.update(elapsed);
-            else {
+            else
+            {
                 iterator.remove();
             }
         }
@@ -233,7 +239,8 @@ public class Game
     private void drawGame(Canvas canvas)
     {
         devil.draw(canvas);
-        for(Cloud cloud : clouds){
+        for (Cloud cloud : clouds)
+        {
             cloud.draw(canvas);
         }
         drawScore(canvas);
@@ -249,7 +256,7 @@ public class Game
     {
         if (state == State.RUNNING)
         {
-            if(event.getY() < this.screenHeight / 2)
+            if (event.getY() < this.screenHeight / 2)
             {
                 devil.moveUp();
             }

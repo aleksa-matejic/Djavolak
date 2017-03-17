@@ -1,12 +1,13 @@
 package com.aleksa.matejic.app;
 
+import android.app.Activity;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.widget.TextView;
 
 import com.aleksa.matejic.app.utils.SharedPreferencesStore;
 
-public class GameActivity extends AppCompatActivity
+public class GameActivity extends Activity
 {
     // private TextView currentPlayer;
 
