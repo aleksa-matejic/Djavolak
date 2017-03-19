@@ -34,10 +34,11 @@ public class Arrow extends Sprite
         setY(getScreenHeight());
     }
 
-    public void initPosition(float x, float y)
+    public void initPosition(float x, float y, float guardianAngelHeight)
     {
         setX(x);
-        setY(y);
+        // Aleksa TODO: a little bit better than this
+        setY(y + (image.getHeight() / 2) + (guardianAngelHeight / 2));
     }
 
     public void update(long elapsed)

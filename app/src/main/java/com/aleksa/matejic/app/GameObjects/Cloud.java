@@ -11,10 +11,18 @@ import java.util.Random;
 public class Cloud extends Sprite
 {
     private static int speed = 10;
+    private Type type;
 
-    public Cloud(int screenWidth, int screenHeight)
+    public enum Type
+    {
+        WHITE,
+        BLACK
+    }
+
+    public Cloud(int screenWidth, int screenHeight, Type type)
     {
         super(screenWidth, screenHeight);
+        this.type = type;
     }
 
     @Override
@@ -49,5 +57,10 @@ public class Cloud extends Sprite
 
     public static void setSpeed(int speed) {
         Cloud.speed = speed;
+    }
+
+    public Type getType()
+    {
+        return type;
     }
 }
