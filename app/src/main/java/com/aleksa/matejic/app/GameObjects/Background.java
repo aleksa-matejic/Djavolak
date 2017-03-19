@@ -80,4 +80,12 @@ public class Background extends Sprite
             canvas.drawBitmap(bitmapReversed, fromRect1, toRect1, paint);
         }
     }
+
+    public float getSpeed() {
+        return speed;
+    }
+
+    public void setSpeed(float speed) {
+        this.speed = speed;
+    }
 }

@@ -44,7 +44,7 @@ public class Devil extends Sprite
         {
             setY(getY() - 6 * elapsed);
         }
-        moveStop();
+        //moveStop();
     }
 
     public void moveDown(long elapsed)
@@ -53,7 +53,7 @@ public class Devil extends Sprite
         {
             setY(getY() + 6 * elapsed);
         }
-        moveStop();
+        //moveStop();
     }
 
     public void moveUp()

@@ -10,7 +10,7 @@ import java.util.Random;
 
 public class Cloud extends Sprite
 {
-    private int speed = 10;
+    private static int speed = 10;
 
     public Cloud(int screenWidth, int screenHeight)
     {
@@ -41,5 +41,13 @@ public class Cloud extends Sprite
     private void move(long distance)
     {
         setX(getX() - distance);
+    }
+
+    public static int getSpeed() {
+        return speed;
+    }
+
+    public static void setSpeed(int speed) {
+        Cloud.speed = speed;
     }
 }
