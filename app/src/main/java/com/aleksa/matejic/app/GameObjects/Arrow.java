@@ -12,6 +12,7 @@ public class Arrow extends Sprite
 {
     private int speed = 6;
     private boolean move = false;
+
     public Arrow(int screenWidth, int screenHeight)
     {
         super(screenWidth, screenHeight);
@@ -20,6 +21,7 @@ public class Arrow extends Sprite
     @Override
     public void init(Bitmap image)
     {
+        image = Bitmap.createScaledBitmap(image, (int) (120 * scale), (int) (20 * scale), true);
         super.init(image);
 
         initPosition(image);
@@ -40,19 +42,22 @@ public class Arrow extends Sprite
 
     public void update(long elapsed)
     {
-        if(isMove())
-            move(speed*elapsed);
+        if (isMove())
+            move(speed * elapsed);
     }
 
-    private void move(long distance){
-        setX(getX()-distance);
+    private void move(long distance)
+    {
+        setX(getX() - distance);
     }
 
-    public boolean isMove() {
+    public boolean isMove()
+    {
         return move;
     }
 
-    public void setMove(boolean move) {
+    public void setMove(boolean move)
+    {
         this.move = move;
     }
 }

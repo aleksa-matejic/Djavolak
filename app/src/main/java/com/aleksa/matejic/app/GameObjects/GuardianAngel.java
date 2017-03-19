@@ -12,6 +12,7 @@ public class GuardianAngel extends Sprite
 {
     private int speed = 6;
     private int way = 1;
+
     public GuardianAngel(int screenWidth, int screenHeight)
     {
         super(screenWidth, screenHeight);
@@ -20,6 +21,7 @@ public class GuardianAngel extends Sprite
     @Override
     public void init(Bitmap image)
     {
+        image = Bitmap.createScaledBitmap(image, (int) (160 * scale), (int) (120 * scale), true);
         super.init(image);
 
         initPosition(image);
@@ -34,25 +36,30 @@ public class GuardianAngel extends Sprite
 
     public void update(long elapsed)
     {
-        if(way == 1)
-            move(speed*elapsed);
+        if (way == 1)
+            move(speed * elapsed);
         else
-            move(-speed*elapsed);
+            move(-speed * elapsed);
     }
 
-    private void move(long distance){
-        setX(getX()-distance);
+    private void move(long distance)
+    {
+        setX(getX() - distance);
     }
 
-    public void setImage(Bitmap image){
+    public void setImage(Bitmap image)
+    {
+        image = Bitmap.createScaledBitmap(image, (int) (160 * scale), (int) (120 * scale), true);
         super.init(image);
     }
 
-    public int getWay() {
+    public int getWay()
+    {
         return way;
     }
 
-    public void setWay(int way) {
+    public void setWay(int way)
+    {
         this.way = way;
     }
 }

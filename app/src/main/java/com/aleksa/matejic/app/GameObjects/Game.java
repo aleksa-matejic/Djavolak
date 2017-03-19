@@ -93,8 +93,8 @@ public class Game
         background = new Background(screenWidth, screenHeight);
         devil = new Devil(width, height);
         clouds = new LinkedList<>();
-        peca = new GuardianAngel(width,height);
-        arrow = new Arrow(width,height);
+        peca = new GuardianAngel(width, height);
+        arrow = new Arrow(width, height);
         rnd = new Random();
         //player = new Bat(width, height, Bat.Position.LEFT);
         //opponent = new Bat(width, height, Bat.Position.RIGHT);
@@ -199,20 +199,22 @@ public class Game
                 iterator.remove();
             }
         }
-        if((System.currentTimeMillis() - pecaTime) > 7000 + rndTime )
+        if ((System.currentTimeMillis() - pecaTime) > 7000 + rndTime)
         {
             peca.update(elapsed);
-            if(peca.getX()<screenWidth-300 && peca.getWay()==1){
+            if (peca.getX() < screenWidth - 300 && peca.getWay() == 1)
+            {
                 peca.setImage(pecaImageNoArrow);
                 peca.setWay(-1);
-                arrow.initPosition(peca.getX(),peca.getY()-50);
+                arrow.initPosition(peca.getX(), peca.getY() - 50);
                 arrow.setMove(true);
             }
-            if(peca.getX()>screenWidth && peca.getWay()==-1){
+            if (peca.getX() > screenWidth && peca.getWay() == -1)
+            {
                 peca.setImage(pecaImage);
                 peca.setWay(1);
-                pecaTime=System.currentTimeMillis();
-                rndTime=rnd.nextInt(3000);
+                pecaTime = System.currentTimeMillis();
+                rndTime = rnd.nextInt(3000);
             }
 
         }
@@ -281,11 +283,11 @@ public class Game
         {
             cloud.draw(canvas);
         }
-        if((System.currentTimeMillis() - pecaTime) > 7000 + rndTime )
+        if ((System.currentTimeMillis() - pecaTime) > 7000 + rndTime)
         {
             peca.draw(canvas);
         }
-        if(arrow.isMove())
+        if (arrow.isMove())
             arrow.draw(canvas);
         drawScore(canvas);
     }

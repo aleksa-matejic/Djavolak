@@ -6,55 +6,68 @@ import android.graphics.Bitmap;
  * Created by aleksa.matejic on 3/15/2017.
  */
 
-public class Devil extends Sprite {
+public class Devil extends Sprite
+{
     private int move;
 
-    public Devil(int screenWidth, int screenHeight) {
+    public Devil(int screenWidth, int screenHeight)
+    {
         super(screenWidth, screenHeight);
         move = 0;
     }
 
     @Override
-    public void init(Bitmap image) {
+    public void init(Bitmap image)
+    {
+        image = Bitmap.createScaledBitmap(image, (int) (80 * scale), (int) (80 * scale), true);
         super.init(image);
 
         initPosition();
     }
 
-    public void initPosition() {
+    public void initPosition()
+    {
         setY(getScreenHeight() / 2 - getRect().centerY());
     }
 
-    public void update(long elapsed) {
+    public void update(long elapsed)
+    {
         if (move == 1)
             moveUp(elapsed);
         if (move == -1)
             moveDown(elapsed);
     }
 
-    public void moveUp(long elapsed) {
-        if (this.getY() > 0) {
+    public void moveUp(long elapsed)
+    {
+        if (this.getY() > 0)
+        {
             setY(getY() - 6 * elapsed);
         }
         moveStop();
     }
 
-    public void moveDown(long elapsed) {
-        if (this.getY() < getScreenHeight()) {
+    public void moveDown(long elapsed)
+    {
+        if (this.getY() < getScreenHeight())
+        {
             setY(getY() + 6 * elapsed);
         }
         moveStop();
     }
 
-    public void moveUp() {
+    public void moveUp()
+    {
         move = 1;
     }
 
-    public void moveDown() {
+    public void moveDown()
+    {
         move = -1;
     }
 
-    public void moveStop() {
+    public void moveStop()
+    {
         move = -0;
     }
 }

@@ -11,6 +11,8 @@ import android.graphics.Rect;
 public class Sprite
 {
 
+    protected double scale;
+
     private float x;
     private float y;
 
@@ -23,6 +25,7 @@ public class Sprite
 
     public Sprite(int screenWidth, int screenHeight)
     {
+        this.scale = 2.2;
         this.x = 0;
         this.y = 0;
 

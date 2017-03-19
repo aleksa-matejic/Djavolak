@@ -11,6 +11,7 @@ import java.util.Random;
 public class Cloud extends Sprite
 {
     private int speed = 10;
+
     public Cloud(int screenWidth, int screenHeight)
     {
         super(screenWidth, screenHeight);
@@ -19,6 +20,7 @@ public class Cloud extends Sprite
     @Override
     public void init(Bitmap image)
     {
+        image = Bitmap.createScaledBitmap(image, (int) (150 * scale), (int) (100 * scale), true);
         super.init(image);
 
         initPosition(image);
@@ -33,10 +35,11 @@ public class Cloud extends Sprite
 
     public void update(long elapsed)
     {
-        move(speed*elapsed);
+        move(speed * elapsed);
     }
 
-    private void move(long distance){
-        setX(getX()-distance);
+    private void move(long distance)
+    {
+        setX(getX() - distance);
     }
 }
