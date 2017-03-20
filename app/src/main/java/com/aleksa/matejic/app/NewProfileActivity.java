@@ -29,7 +29,7 @@ public class NewProfileActivity extends Activity
             @Override
             public void onClick(View v)
             {
-                if(etInputName.getText().toString().equals(""))
+                if (etInputName.getText().toString().equals(""))
                 {
                     Toast.makeText(getApplicationContext(), "Input your name!", Toast.LENGTH_SHORT).show();
                     return;

@@ -160,7 +160,7 @@ public class Game
                 {
                     //ball.speedUp();
                     //opponent.speedUp();
-                    if(clouds.size() < 6)
+                    if (clouds.size() < 6)
                     {
                         Cloud cloud;
                         if (rnd.nextInt(2) == 0)
@@ -203,7 +203,7 @@ public class Game
                 //devil.getScreenRect().contains((int)cloud.getY()+cloud.getScreenRect().height(), cloud.getScreenRect().centerX())
                     )
             {
-                if(cloud.getType() == Cloud.Type.BLACK)
+                if (cloud.getType() == Cloud.Type.BLACK)
                 {
                     // TODO: game over
                 }
@@ -322,27 +322,38 @@ public class Game
         canvas.drawText(loses + "", canvas.getWidth() - 20, 20, textPaint);
     }
 
-    public void onTouchEvent(MotionEvent event) {
-        if (state == State.RUNNING) {
-            if (event.getAction() == android.view.MotionEvent.ACTION_DOWN || event.getAction() == android.view.MotionEvent.ACTION_MOVE) {
+    public void onTouchEvent(MotionEvent event)
+    {
+        if (state == State.RUNNING)
+        {
+            if (event.getAction() == android.view.MotionEvent.ACTION_DOWN || event.getAction() == android.view.MotionEvent.ACTION_MOVE)
+            {
 
-                if (event.getY() < this.screenHeight / 2 && event.getX() < this.screenWidth / 2) {
+                if (event.getY() < this.screenHeight / 2 && event.getX() < this.screenWidth / 2)
+                {
                     devil.moveUp();
                 }
-                if (event.getY() > this.screenHeight / 2 && event.getX() < this.screenWidth / 2) {
+                if (event.getY() > this.screenHeight / 2 && event.getX() < this.screenWidth / 2)
+                {
                     devil.moveDown();
                 }
-                if (event.getX() < this.screenWidth - this.screenWidth / 4 && event.getX() > this.screenWidth / 2) {
+                if (event.getX() < this.screenWidth - this.screenWidth / 4 && event.getX() > this.screenWidth / 2)
+                {
                     slowDown();
                 }
-                if (event.getX() > this.screenWidth - this.screenWidth / 4 && event.getX() > this.screenWidth / 2) {
+                if (event.getX() > this.screenWidth - this.screenWidth / 4 && event.getX() > this.screenWidth / 2)
+                {
                     speedUp();
                 }
-            } else if (event.getAction() == android.view.MotionEvent.ACTION_UP) {
+            }
+            else if (event.getAction() == android.view.MotionEvent.ACTION_UP)
+            {
                 devil.moveStop();
                 normalSpeed();
             }
-        } else {
+        }
+        else
+        {
             state = State.RUNNING;
             startTime = System.currentTimeMillis();
             cloudTime = System.currentTimeMillis();
@@ -352,19 +363,22 @@ public class Game
         }
     }
 
-    private void speedUp() {
+    private void speedUp()
+    {
         background.setSpeed(100);
         Cloud.setSpeed(20);
         angel.setWay(1);
     }
 
-    private void slowDown() {
+    private void slowDown()
+    {
         background.setSpeed(20);
         Cloud.setSpeed(5);
         angel.setWay(-1);
     }
 
-    private void normalSpeed() {
+    private void normalSpeed()
+    {
         background.setSpeed(50);
         Cloud.setSpeed(10);
         angel.setWay(0);

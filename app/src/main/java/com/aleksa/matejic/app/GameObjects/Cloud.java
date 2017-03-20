@@ -51,11 +51,13 @@ public class Cloud extends Sprite
         setX(getX() - distance);
     }
 
-    public static int getSpeed() {
+    public static int getSpeed()
+    {
         return speed;
     }
 
-    public static void setSpeed(int speed) {
+    public static void setSpeed(int speed)
+    {
         Cloud.speed = speed;
     }
 
