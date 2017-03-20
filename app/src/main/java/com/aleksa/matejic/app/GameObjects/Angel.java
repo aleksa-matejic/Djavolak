@@ -13,6 +13,7 @@ public class Angel extends Sprite
     private int speed = 6;
     private int way = 0;
     private long distance = 1000;
+    private float newY;
 
     public Angel(int screenWidth, int screenHeight)
     {
@@ -33,7 +34,9 @@ public class Angel extends Sprite
         Random rnd = new Random();
         setX(distance);
         setY(rnd.nextInt(getScreenHeight() - image.getHeight()));
+        newY = rnd.nextInt(getScreenHeight() - getScreenRect().height());
     }
+
 
     public void update(long elapsed)
     {
@@ -41,6 +44,22 @@ public class Angel extends Sprite
             move(speed * elapsed);
         if (way == -1)
             move(-speed * elapsed);
+
+        Random rnd = new Random();
+
+        if (getY() == newY)
+        {
+            newY = rnd.nextInt(getScreenHeight() - getScreenRect().height());
+        }
+
+        if (getY() < newY)
+        {
+            setY(getY() + 1);
+        }
+        else
+        {
+            setY(getY() - 1);
+        }
     }
 
     private void move(long distance)
