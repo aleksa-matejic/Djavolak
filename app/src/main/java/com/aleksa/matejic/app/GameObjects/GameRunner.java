@@ -33,7 +33,7 @@ public class GameRunner extends Thread
             // Log.d("MP", "elapsed1 "+elapsed);
             if (elapsed < 100 && elapsed > 0)
             {
-                Log.d("MP", "elapsed2 " + elapsed);
+                // Log.d("MP", "elapsed2 " + elapsed);
                 game.update(elapsed);
                 game.draw();
                 lastTime = System.currentTimeMillis();

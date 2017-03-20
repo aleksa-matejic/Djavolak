@@ -17,6 +17,7 @@ import android.media.AudioManager;
 import android.media.MediaPlayer;
 import android.media.SoundPool;
 import android.media.SoundPool.OnLoadCompleteListener;
+import android.util.Log;
 import android.view.MotionEvent;
 import android.view.SurfaceHolder;
 
@@ -192,34 +193,26 @@ public class Game
     {
         background.update(15);
         devil.update(elapsed);
-        Cloud cloud = null;
+        angel.update(elapsed);
+        arrow.update(elapsed);
+
+        // put here clouds update
+        Cloud cloud;
         iterator = clouds.iterator();
         while (iterator.hasNext())
         {
             cloud = iterator.next();
-            if (devil.getScreenRect().contains(cloud.getScreenRect().left, cloud.getScreenRect().centerY()) ||
-                    devil.getScreenRect().contains(cloud.getScreenRect().right, cloud.getScreenRect().centerY()) //||
-                //devil.getScreenRect().contains((int)cloud.getY(), cloud.getScreenRect().centerX()) ||
-                //devil.getScreenRect().contains((int)cloud.getY()+cloud.getScreenRect().height(), cloud.getScreenRect().centerX())
-                    )
+            if (cloud.getX() > ((-cloud.getScreenRect().width())))
             {
-                if (cloud.getType() == Cloud.Type.BLACK)
-                {
-                    // TODO: game over
-                }
-                else if (cloud.getType() == Cloud.Type.WHITE)
-                {
-                    // TODO: slow
-                }
-                iterator.remove();
-            }
-            else if (cloud.getX() > ((-cloud.getScreenRect().width())))
                 cloud.update(elapsed);
+            }
             else
             {
                 iterator.remove();
             }
         }
+
+        // put here guardian angel update
         if ((System.currentTimeMillis() - pecaTime) > 7000 + rndTime)
         {
             peca.update(elapsed);
@@ -239,8 +232,26 @@ public class Game
             }
 
         }
-        arrow.update(elapsed);
-        angel.update(elapsed);
+
+        // put here arrow collision detection
+        if (devil.arrowCollisionDetection(arrow))
+        {
+            Log.d("arrow collision", "true");
+            arrow.setMove(false);
+        }
+
+        // put here clouds collision detection
+        if (devil.cloudsCollisionDetection(clouds))
+        {
+            Log.d("cloud collision", "true");
+        }
+
+        // put here angel collision detection
+        if(devil.angelCollisionDetection(angel))
+        {
+            Log.d("angel collision", "true");
+        }
+
     }
 
     private void drawText(Canvas canvas, String text)

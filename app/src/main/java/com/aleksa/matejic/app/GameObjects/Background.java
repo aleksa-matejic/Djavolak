@@ -81,11 +81,13 @@ public class Background extends Sprite
         }
     }
 
-    public float getSpeed() {
+    public float getSpeed()
+    {
         return speed;
     }
 
-    public void setSpeed(float speed) {
+    public void setSpeed(float speed)
+    {
         this.speed = speed;
     }
 }

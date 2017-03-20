@@ -12,7 +12,7 @@ public class Angel extends Sprite
 {
     private int speed = 6;
     private int way = 0;
-    private long distance = 10000;
+    private long distance = 1000;
 
     public Angel(int screenWidth, int screenHeight)
     {
@@ -22,7 +22,7 @@ public class Angel extends Sprite
     @Override
     public void init(Bitmap image)
     {
-        image = Bitmap.createScaledBitmap(image, (int) (160 * scale), (int) (120 * scale), true);
+        image = Bitmap.createScaledBitmap(image, (int) (160 * scale), (int) (110 * scale), true);
         super.init(image);
 
         initPosition(image);
