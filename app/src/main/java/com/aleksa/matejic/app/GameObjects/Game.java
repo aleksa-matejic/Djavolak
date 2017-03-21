@@ -51,6 +51,7 @@ public class Game
     private GuardianAngel peca;
     private Arrow arrow;
     private Angel angel;
+    private Statistics statistics;
     //private Bat player;   ovde turi svoje objekte djavolak, peca djavolcica
     //private Bat opponent;
 
@@ -98,6 +99,7 @@ public class Game
         peca = new GuardianAngel(width, height);
         arrow = new Arrow(width, height);
         angel = new Angel(width, height);
+        statistics = new Statistics("Player Name HC");
         rnd = new Random();
         //player = new Bat(width, height, Bat.Position.LEFT);
         //opponent = new Bat(width, height, Bat.Position.RIGHT);
@@ -195,6 +197,7 @@ public class Game
         devil.update(elapsed);
         angel.update(elapsed);
         arrow.update(elapsed);
+        statistics.update();
 
         // put here clouds update
         Cloud cloud;
@@ -325,6 +328,7 @@ public class Game
         if (angel.getX() < screenWidth && angel.getX() > -angel.getRect().width())
             angel.draw(canvas);
         drawScore(canvas);
+        statistics.draw(canvas);
     }
 
     private void drawScore(Canvas canvas)

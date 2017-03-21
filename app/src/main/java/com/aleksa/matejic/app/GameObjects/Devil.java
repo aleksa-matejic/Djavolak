@@ -53,7 +53,7 @@ public class Devil extends Sprite
 
     public void moveDown(long elapsed)
     {
-        if (this.getY() < getScreenHeight())
+        if ((image.getHeight() + getY()) < getScreenHeight())
         {
             setY(getY() + 6 * elapsed);
         }
