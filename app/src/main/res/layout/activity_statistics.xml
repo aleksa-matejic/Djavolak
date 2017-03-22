@@ -6,4 +6,47 @@
     android:layout_height="match_parent"
     android:background="@drawable/background">
 
+    <TableLayout xmlns:android="http://schemas.android.com/apk/res/android"
+                 android:id="@+id/tlStatistics"
+                 android:layout_width="match_parent"
+                 android:layout_height="match_parent"
+                 android:stretchColumns="*"
+                 android:gravity="center">
+
+        <TableRow>
+
+            <TextView
+                android:layout_column="1"
+                android:text="Player Name"
+                />
+
+            <TextView
+                android:layout_column="2"
+                android:text="Distance"
+                />
+
+            <TextView
+                android:layout_column="3"
+                android:text="Black"
+                />
+
+            <TextView
+                android:layout_column="4"
+                android:text="White"
+                />
+
+            <TextView
+                android:layout_column="5"
+                android:text="Arrows"
+                />
+
+            <TextView
+                android:layout_column="6"
+                android:text="Score"
+                />
+
+        </TableRow>
+
+    </TableLayout>
+
 </RelativeLayout>

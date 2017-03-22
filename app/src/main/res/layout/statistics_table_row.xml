@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="utf-8"?>
+<TableRow xmlns:android="http://schemas.android.com/apk/res/android"
+          android:layout_width="match_parent"
+          android:layout_height="match_parent">
+
+
+    <TextView
+        android:layout_column="1"
+        android:id="@+id/playerNameCell"
+        />
+
+    <TextView
+        android:layout_column="2"
+        android:id="@+id/devilDistanceCell"
+        />
+
+    <TextView
+        android:layout_column="3"
+        android:id="@+id/avoidedBlackCloudsCell"
+        />
+
+    <TextView
+        android:layout_column="4"
+        android:id="@+id/avoidedWhiteCloudsCell"
+        />
+
+    <TextView
+        android:layout_column="5"
+        android:id="@+id/avoidedArrowsCell"
+        />
+
+    <TextView
+        android:layout_column="6"
+        android:id="@+id/scoreCell"
+        />
+
+
+</TableRow>

@@ -23,6 +23,7 @@ import android.view.SurfaceHolder;
 
 import com.aleksa.matejic.app.MainActivity;
 import com.aleksa.matejic.app.R;
+import com.aleksa.matejic.app.utils.DatabaseHelper;
 
 import java.util.Iterator;
 import java.util.LinkedList;
@@ -52,6 +53,7 @@ public class Game
     private Arrow arrow;
     private Angel angel;
     private Statistics statistics;
+    private DatabaseHelper db;
     //private Bat player;   ovde turi svoje objekte djavolak, peca djavolcica
     //private Bat opponent;
 
@@ -100,6 +102,7 @@ public class Game
         arrow = new Arrow(width, height);
         angel = new Angel(width, height);
         statistics = new Statistics("Player Name HC");
+        db = new DatabaseHelper(context);
         rnd = new Random();
         //player = new Bat(width, height, Bat.Position.LEFT);
         //opponent = new Bat(width, height, Bat.Position.RIGHT);
