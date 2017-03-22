@@ -75,4 +75,13 @@ public class DatabaseHelper extends SQLiteOpenHelper
 
         return result;
     }
+
+    public Cursor getAllPlayers()
+    {
+        SQLiteDatabase db = this.getWritableDatabase();
+
+        Cursor result = db.rawQuery("SELECT DISTINCT playerName FROM " + TABLE_NAME, null);
+
+        return result;
+    }
 }

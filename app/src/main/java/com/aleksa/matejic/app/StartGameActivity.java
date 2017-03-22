@@ -2,7 +2,9 @@ package com.aleksa.matejic.app;
 
 import android.app.Activity;
 import android.content.Intent;
+import android.database.Cursor;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
@@ -10,7 +12,10 @@ import android.widget.ListAdapter;
 import android.widget.ListView;
 import android.widget.RelativeLayout;
 
+import com.aleksa.matejic.app.utils.DatabaseHelper;
 import com.aleksa.matejic.app.utils.SharedPreferencesStore;
+
+import java.util.LinkedList;
 
 public class StartGameActivity extends Activity
 {
@@ -23,8 +28,16 @@ public class StartGameActivity extends Activity
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_start_game);
 
-        // Aleksa TODO: read profiles from cache
-        String[] previousProfilesTmp = {"Djavolko", "Vragolan", "Aleksa"};
+        LinkedList<String> previousProfilesTmp = new LinkedList<>();
+        DatabaseHelper db = new DatabaseHelper(this);
+        Cursor result = db.getAllPlayers();
+
+        while (result.moveToNext())
+        {
+            previousProfilesTmp.add(result.getString(0));
+        }
+
+        // Aleksa TODO: check what happens when no records in db
         ListAdapter adapterTmp = new ArrayAdapter<>(StartGameActivity.this, android.R.layout.simple_list_item_1, previousProfilesTmp);
 
         lvPreviousProfiles = (ListView) findViewById(R.id.lvPreviousProfiles);
@@ -35,10 +48,6 @@ public class StartGameActivity extends Activity
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id)
             {
-                /*Intent intent = new Intent(MainActivity.this, SendMessage.class);
-                String message = "abc";
-                intent.putExtra(EXTRA_MESSAGE, message);
-                startActivity(intent);*/
 
                 //                String playerName = lvPreviousProfiles.getItemAtPosition(position).toString();
                 //                boolean result = SharedPreferencesStore.getInstance(StartGameActivity.this).saveString(SharedPreferencesStore.getInstance(StartGameActivity.this).CURRENT_PLAYER, playerName);
