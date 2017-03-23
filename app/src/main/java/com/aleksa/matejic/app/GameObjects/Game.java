@@ -219,16 +219,16 @@ public class Game {
             Log.d("arrow collision", "true");
             arrow.setMove(false);
             // TODO: game over
-            init();
             state = State.LOST;
+            resetGame();
         }
 
         // put here angel collision detection
         if (angelCollisionDetection()) {
             Log.d("angel collision", "true");
             // TODO: game won
-            init();
             state = State.WON;
+            resetGame();
         }
 
     }
@@ -371,8 +371,8 @@ public class Game {
                     if (cloud.getType() == Cloud.Type.BLACK) {
                         // TODO: game over
                         state = State.LOST;
-                        init();
-                        Log.d("cloud", "black");
+                        resetGame();
+                        Log.d("cloud", "black");break;
                     } else if (cloud.getType() == Cloud.Type.WHITE) {
                         // TODO: slow down
                         slowDown();
@@ -416,5 +416,10 @@ public class Game {
 
         }
         return false;
+    }
+    public void resetGame(){
+        init();
+        clouds.clear();
+        hit=0;
     }
 }
