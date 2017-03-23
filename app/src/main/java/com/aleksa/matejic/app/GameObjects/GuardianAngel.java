@@ -34,6 +34,12 @@ public class GuardianAngel extends Sprite
         setY(rnd.nextInt(getScreenHeight() - image.getHeight()));
     }
 
+    public void initPosition()
+    {
+        Random rnd = new Random();
+        setY(rnd.nextInt(getScreenHeight() - image.getHeight()));
+    }
+
     public void update(long elapsed)
     {
         if (way == 1)
