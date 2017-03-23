@@ -57,11 +57,11 @@ public class Game
     //private Bat player;   ovde turi svoje objekte djavolak, peca djavolcica
     //private Bat opponent;
 
-    Bitmap whiteCloudImage;
-    Bitmap blackCloudImage;
-    Bitmap pecaImage;
-    Bitmap pecaImageNoArrow;
-    Bitmap arrowImage;
+    private Bitmap whiteCloudImage;
+    private Bitmap blackCloudImage;
+    private Bitmap pecaImage;
+    private Bitmap pecaImageNoArrow;
+    private Bitmap arrowImage;
 
     private int screenWidth;
     private int screenHeight;
@@ -235,6 +235,7 @@ public class Game
                 peca.setWay(1);
                 pecaTime = System.currentTimeMillis();
                 rndTime = rnd.nextInt(3000);
+                peca.initPosition();
             }
 
         }
