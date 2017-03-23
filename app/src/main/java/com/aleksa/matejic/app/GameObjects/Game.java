@@ -202,31 +202,8 @@ public class Game
         arrow.update(elapsed);
         statistics.update();
 
-        // put here clouds update
-        Cloud cloud;
-        iterator = clouds.iterator();
-        while (iterator.hasNext())
-        {
-            cloud = iterator.next();
-            if (cloud.getX() > ((-cloud.getScreenRect().width())))
-            {
-                cloud.update(elapsed);
-            }
-            else
-            {
-                if (cloud.getType() == Cloud.Type.BLACK)
-                {
-                    statistics.setAvoidedBlackClouds(statistics.getAvoidedBlackClouds() + 1);
-                }
-
-                if (cloud.getType() == Cloud.Type.WHITE)
-                {
-                    statistics.setAvoidedWhiteClouds(statistics.getAvoidedWhiteClouds() + 1);
-                }
-
-                iterator.remove();
-            }
-        }
+        // put here clouds update and collision detection
+        cloudsUpdateAndCollisionDetection(elapsed);
 
         // put here guardian angel update
         if ((System.currentTimeMillis() - pecaTime) > 7000 + rndTime)
@@ -255,18 +232,14 @@ public class Game
         {
             Log.d("arrow collision", "true");
             arrow.setMove(false);
-        }
-
-        // put here clouds collision detection
-        if (cloudsCollisionDetection())
-        {
-            Log.d("cloud collision", "true");
+            // TODO: game over
         }
 
         // put here angel collision detection
         if (angelCollisionDetection())
         {
             Log.d("angel collision", "true");
+            // TODO: game won
         }
 
     }
@@ -275,6 +248,7 @@ public class Game
     {
         canvas.drawText(text, canvas.getWidth() / 2, canvas.getHeight() / 2, textPaint);
     }
+
 
     public void draw()
     {
@@ -414,7 +388,7 @@ public class Game
     }
 
     // Aleksa TODO: consider return type
-    public boolean cloudsCollisionDetection()
+    public void cloudsUpdateAndCollisionDetection(long elapsed)
     {
         Cloud cloud;
 
@@ -422,6 +396,29 @@ public class Game
         while (iterator.hasNext())
         {
             cloud = iterator.next();
+
+            // if cloud did not left screen update its position
+            if (cloud.getX() > ((-cloud.getScreenRect().width())))
+            {
+                cloud.update(elapsed);
+            }
+            else
+            {
+                // otherwise remove cloud and update statistics
+                if (cloud.getType() == Cloud.Type.BLACK)
+                {
+                    statistics.setAvoidedBlackClouds(statistics.getAvoidedBlackClouds() + 1);
+                }
+
+                if (cloud.getType() == Cloud.Type.WHITE)
+                {
+                    statistics.setAvoidedWhiteClouds(statistics.getAvoidedWhiteClouds() + 1);
+                }
+
+                iterator.remove();
+            }
+
+            // if devil collided with cloud
             if (devil.getScreenRect().contains(cloud.getScreenRect().left, cloud.getScreenRect().centerY()) ||
                     devil.getScreenRect().contains(cloud.getScreenRect().right, cloud.getScreenRect().centerY()) //||
                 //devil.getScreenRect().contains((int)cloud.getY(), cloud.getScreenRect().centerX()) ||
@@ -439,16 +436,14 @@ public class Game
                     Log.d("cloud", "white");
                 }
                 iterator.remove();
-                return true;
             }
-        }
 
-        return false;
+        }
     }
 
     public boolean arrowCollisionDetection()
     {
-        // if arrow points are in touch with devil
+        // if devil collided with arrow
         if (devil.getScreenRect().contains(arrow.getScreenRect().left, arrow.getScreenRect().centerY()) ||
                 devil.getScreenRect().contains(arrow.getScreenRect().right, arrow.getScreenRect().centerY()))
         {
@@ -460,6 +455,7 @@ public class Game
 
     public boolean angelCollisionDetection()
     {
+        // if devil collided with angel
         if (devil.getScreenRect().contains(angel.getScreenRect().left, angel.getScreenRect().centerY()) ||
                 devil.getScreenRect().contains(angel.getScreenRect().right, angel.getScreenRect().centerY()) // ||
             // angel.getScreenRect().contains((int) angel.getY(), angel.getScreenRect().centerX()) ||
