@@ -214,6 +214,16 @@ public class Game
             }
             else
             {
+                if (cloud.getType() == Cloud.Type.BLACK)
+                {
+                    statistics.setAvoidedBlackClouds(statistics.getAvoidedBlackClouds() + 1);
+                }
+
+                if (cloud.getType() == Cloud.Type.WHITE)
+                {
+                    statistics.setAvoidedWhiteClouds(statistics.getAvoidedWhiteClouds() + 1);
+                }
+
                 iterator.remove();
             }
         }
@@ -240,20 +250,20 @@ public class Game
         }
 
         // put here arrow collision detection
-        if (devil.arrowCollisionDetection(arrow))
+        if (arrowCollisionDetection())
         {
             Log.d("arrow collision", "true");
             arrow.setMove(false);
         }
 
         // put here clouds collision detection
-        if (devil.cloudsCollisionDetection(clouds))
+        if (cloudsCollisionDetection())
         {
             Log.d("cloud collision", "true");
         }
 
         // put here angel collision detection
-        if(devil.angelCollisionDetection(angel))
+        if (angelCollisionDetection())
         {
             Log.d("angel collision", "true");
         }
@@ -402,4 +412,63 @@ public class Game
         angel.setWay(0);
     }
 
+    // Aleksa TODO: consider return type
+    public boolean cloudsCollisionDetection()
+    {
+        Cloud cloud;
+
+        iterator = clouds.iterator();
+        while (iterator.hasNext())
+        {
+            cloud = iterator.next();
+            if (devil.getScreenRect().contains(cloud.getScreenRect().left, cloud.getScreenRect().centerY()) ||
+                    devil.getScreenRect().contains(cloud.getScreenRect().right, cloud.getScreenRect().centerY()) //||
+                //devil.getScreenRect().contains((int)cloud.getY(), cloud.getScreenRect().centerX()) ||
+                //devil.getScreenRect().contains((int)cloud.getY()+cloud.getScreenRect().height(), cloud.getScreenRect().centerX())
+                    )
+            {
+                if (cloud.getType() == Cloud.Type.BLACK)
+                {
+                    // TODO: game over
+                    Log.d("cloud", "black");
+                }
+                else if (cloud.getType() == Cloud.Type.WHITE)
+                {
+                    // TODO: slow down
+                    Log.d("cloud", "white");
+                }
+                iterator.remove();
+                return true;
+            }
+        }
+
+        return false;
+    }
+
+    public boolean arrowCollisionDetection()
+    {
+        // if arrow points are in touch with devil
+        if (devil.getScreenRect().contains(arrow.getScreenRect().left, arrow.getScreenRect().centerY()) ||
+                devil.getScreenRect().contains(arrow.getScreenRect().right, arrow.getScreenRect().centerY()))
+        {
+            // TODO: game over
+            return true;
+        }
+        return false;
+    }
+
+    public boolean angelCollisionDetection()
+    {
+        if (devil.getScreenRect().contains(angel.getScreenRect().left, angel.getScreenRect().centerY()) ||
+                devil.getScreenRect().contains(angel.getScreenRect().right, angel.getScreenRect().centerY()) // ||
+            // angel.getScreenRect().contains((int) angel.getY(), angel.getScreenRect().centerX()) ||
+            // angel.getScreenRect().contains((int) angel.getY() + angel.getScreenRect().height(), angel.getScreenRect().centerX())
+                )
+        {
+            // TODO: game won
+            return true;
+
+        }
+        return false;
+    }
 }

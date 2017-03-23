@@ -25,8 +25,12 @@ public class Statistics
     public Statistics(String playerName)
     {
         this.playerName = playerName;
+        this.devilDistance = 0;
+        this.avoidedBlackClouds = 0;
+        this.avoidedWhiteClouds = 0;
+        this.avoidedArrows = 0;
         this.score = 0;
-        scale = 2.2;
+        this.scale = 2.2;
 
         fillPaint = new Paint();
         fillPaint.setTextAlign(Paint.Align.CENTER);
@@ -109,12 +113,14 @@ public class Statistics
     public void generateScore()
     {
         // Aleksa TODO: implementation
+        this.score = ((int) (this.devilDistance) + (this.avoidedWhiteClouds * 100) - (this.avoidedBlackClouds * 200) + (this.avoidedArrows * 300));
     }
 
     public void update()
     {
         // Aleksa TODO: implementation
-        score += 50;
+        // score += 50;
+        generateScore();
     }
 
     public void draw(Canvas canvas)
