@@ -397,10 +397,31 @@ public class Game
         {
             cloud = iterator.next();
 
-            // if cloud did not left screen update its position
+            // if cloud did not left screen
             if (cloud.getX() > ((-cloud.getScreenRect().width())))
             {
+                // update its position
                 cloud.update(elapsed);
+
+                // if devil collided with cloud
+                if (devil.getScreenRect().contains(cloud.getScreenRect().left, cloud.getScreenRect().centerY()) ||
+                        devil.getScreenRect().contains(cloud.getScreenRect().right, cloud.getScreenRect().centerY()) //||
+                    //devil.getScreenRect().contains((int)cloud.getY(), cloud.getScreenRect().centerX()) ||
+                    //devil.getScreenRect().contains((int)cloud.getY()+cloud.getScreenRect().height(), cloud.getScreenRect().centerX())
+                        )
+                {
+                    if (cloud.getType() == Cloud.Type.BLACK)
+                    {
+                        // TODO: game over
+                        Log.d("cloud", "black");
+                    }
+                    else if (cloud.getType() == Cloud.Type.WHITE)
+                    {
+                        // TODO: slow down
+                        Log.d("cloud", "white");
+                    }
+                    iterator.remove();
+                }
             }
             else
             {
@@ -417,27 +438,6 @@ public class Game
 
                 iterator.remove();
             }
-
-            // if devil collided with cloud
-            if (devil.getScreenRect().contains(cloud.getScreenRect().left, cloud.getScreenRect().centerY()) ||
-                    devil.getScreenRect().contains(cloud.getScreenRect().right, cloud.getScreenRect().centerY()) //||
-                //devil.getScreenRect().contains((int)cloud.getY(), cloud.getScreenRect().centerX()) ||
-                //devil.getScreenRect().contains((int)cloud.getY()+cloud.getScreenRect().height(), cloud.getScreenRect().centerX())
-                    )
-            {
-                if (cloud.getType() == Cloud.Type.BLACK)
-                {
-                    // TODO: game over
-                    Log.d("cloud", "black");
-                }
-                else if (cloud.getType() == Cloud.Type.WHITE)
-                {
-                    // TODO: slow down
-                    Log.d("cloud", "white");
-                }
-                iterator.remove();
-            }
-
         }
     }
 
@@ -447,7 +447,6 @@ public class Game
         if (devil.getScreenRect().contains(arrow.getScreenRect().left, arrow.getScreenRect().centerY()) ||
                 devil.getScreenRect().contains(arrow.getScreenRect().right, arrow.getScreenRect().centerY()))
         {
-            // TODO: game over
             return true;
         }
         return false;
@@ -462,7 +461,6 @@ public class Game
             // angel.getScreenRect().contains((int) angel.getY() + angel.getScreenRect().height(), angel.getScreenRect().centerX())
                 )
         {
-            // TODO: game won
             return true;
 
         }
