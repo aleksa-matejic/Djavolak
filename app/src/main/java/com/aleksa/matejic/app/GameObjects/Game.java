@@ -64,12 +64,14 @@ public class Game {
     private int screenHeight;
 
     private Paint textPaint;
+    private Paint strokePaint;
     private Context context;
 
     private int[] sounds = new int[5];
     private long startTime;
     private long cloudTime;
     private long pecaTime;
+    private long slowDownTime;
 
     private int cloudShowUpSpeed;
     private int cloudShowUp;
@@ -109,8 +111,28 @@ public class Game {
         textPaint.setTextAlign(Align.CENTER);
         textPaint.setAntiAlias(true);
         textPaint.setColor(Color.BLUE);
-        textPaint.setTextSize(26);
+
+        textPaint.setTextSize((int) (50 * 2.2));
         textPaint.setTypeface(Typeface.DEFAULT_BOLD);
+
+
+        textPaint = new Paint();
+        textPaint.setTextAlign(Paint.Align.CENTER);
+        textPaint.setAntiAlias(true);
+        textPaint.setColor(Color.YELLOW);
+        // Aleksa TODO: get scale from sprite
+        textPaint.setTextSize((int) (40 * 2.2));
+        textPaint.setTypeface(Typeface.DEFAULT_BOLD);
+
+        strokePaint = new Paint();
+        strokePaint.setTextAlign(Paint.Align.CENTER);
+        strokePaint.setAntiAlias(true);
+        strokePaint.setColor(Color.BLACK);
+        // Aleksa TODO: get scale from sprite
+        strokePaint.setTextSize((int) (40 * 2.2));
+        strokePaint.setTypeface(Typeface.DEFAULT_BOLD);
+        strokePaint.setStyle(Paint.Style.STROKE);
+        strokePaint.setStrokeWidth(6);
     }
 
     public void init() {
@@ -171,6 +193,7 @@ public class Game {
                 }
                 cloudTime = System.currentTimeMillis();
             }
+
             if(hit >=0)
                 hit--;
             updateGame(elapsed);
@@ -233,7 +256,8 @@ public class Game {
     }
 
     private void drawText(Canvas canvas, String text) {
-        canvas.drawText(text, canvas.getWidth() / 2, canvas.getHeight() / 2, textPaint);
+        canvas.drawText(text, canvas.getWidth() / 2, (canvas.getHeight() / 2) + (textPaint.getTextSize() / 2), textPaint);
+        canvas.drawText(text, canvas.getWidth() / 2, (canvas.getHeight() / 2) + (textPaint.getTextSize() / 2), strokePaint);
     }
 
 
@@ -245,28 +269,16 @@ public class Game {
 
             switch (state) {
                 case LOST:
-                    if (loses < 55) {
-                        drawText(canvas, "You Lost, try to win 55 times!");
-                    } else {
-                        drawText(canvas, "You'r NOOB!");
-                        wins = 0;
-                        loses = 0;
-                    }
+                    drawText(canvas, "Game over!");
                     break;
                 case PAUSED:
-                    drawText(canvas, "Tap screen to start... and try to win 55 times!");
+                    drawText(canvas, "Tap screen to start...");
                     break;
                 case RUNNING:
                     drawGame(canvas);
                     break;
                 case WON:
-                    if (wins < 55) {
-                        drawText(canvas, "You won, try to win 55 times!");
-                    } else {
-                        drawText(canvas, "You'r the GOD!");
-                        wins = 0;
-                        loses = 0;
-                    }
+                    drawText(canvas, "Your score is " + statistics.getScore());
                     break;
                 default:
                     break;
@@ -290,13 +302,7 @@ public class Game {
             arrow.draw(canvas);
         if (angel.getX() < screenWidth && angel.getX() > -angel.getRect().width())
             angel.draw(canvas);
-        drawScore(canvas);
         statistics.draw(canvas);
-    }
-
-    private void drawScore(Canvas canvas) {
-        canvas.drawText(wins + "", 20, 20, textPaint);
-        canvas.drawText(loses + "", canvas.getWidth() - 20, 20, textPaint);
     }
 
     public void onTouchEvent(MotionEvent event) {

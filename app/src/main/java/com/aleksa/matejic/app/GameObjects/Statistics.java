@@ -102,7 +102,7 @@ public class Statistics
 
     public int getScore()
     {
-        return avoidedArrows;
+        return score;
     }
 
     public void setScore(int score)
