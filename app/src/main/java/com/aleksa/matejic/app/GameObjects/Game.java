@@ -31,9 +31,11 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.Random;
 
-public class Game {
+public class Game
+{
 
-    private enum State {
+    private enum State
+    {
         PAUSED, WON, LOST, RUNNING
     }
 
@@ -85,7 +87,8 @@ public class Game {
 
     private Random rnd;
 
-    public Game(Context context, int width, int height, SurfaceHolder holder, Resources resources) {
+    public Game(Context context, int width, int height, SurfaceHolder holder, Resources resources)
+    {
         this.holder = holder;
         this.resources = resources;
         this.context = context;
@@ -135,7 +138,8 @@ public class Game {
         strokePaint.setStrokeWidth(6);
     }
 
-    public void init() {
+    public void init()
+    {
 
         Bitmap devilImage = BitmapFactory.decodeResource(resources, R.drawable.devil);
         Bitmap backgroundImage = BitmapFactory.decodeResource(resources, R.drawable.game_background);
@@ -175,16 +179,24 @@ public class Game {
         });
     }
 
-    public void update(long elapsed) {
-        if (state == State.RUNNING) {
-            if (System.currentTimeMillis() - cloudTime > 60) {
-                if (rnd.nextInt(cloudShowUpSpeed) < cloudShowUp) {
-                    if (clouds.size() < 6) {
+    public void update(long elapsed)
+    {
+        if (state == State.RUNNING)
+        {
+            if (System.currentTimeMillis() - cloudTime > 60)
+            {
+                if (rnd.nextInt(cloudShowUpSpeed) < cloudShowUp)
+                {
+                    if (clouds.size() < 6)
+                    {
                         Cloud cloud;
-                        if (rnd.nextInt(2) == 0) {
+                        if (rnd.nextInt(2) == 0)
+                        {
                             cloud = new Cloud(screenWidth, screenHeight, Cloud.Type.BLACK);
                             cloud.init(blackCloudImage);
-                        } else {
+                        }
+                        else
+                        {
                             cloud = new Cloud(screenWidth, screenHeight, Cloud.Type.WHITE);
                             cloud.init(whiteCloudImage);
                         }
@@ -194,18 +206,20 @@ public class Game {
                 cloudTime = System.currentTimeMillis();
             }
 
-            if(hit >=0)
+            if (hit >= 0)
                 hit--;
             updateGame(elapsed);
 
         }
     }
 
-    private void initObjectPositions() {
+    private void initObjectPositions()
+    {
         devil.initPosition();
     }
 
-    public void updateGame(long elapsed) {
+    public void updateGame(long elapsed)
+    {
         background.update(15);
         devil.update(elapsed);
         angel.update(elapsed);
@@ -216,15 +230,18 @@ public class Game {
         cloudsUpdateAndCollisionDetection(elapsed);
 
         // put here guardian angel update
-        if ((System.currentTimeMillis() - pecaTime) > 7000 + rndTime) {
+        if ((System.currentTimeMillis() - pecaTime) > 7000 + rndTime)
+        {
             peca.update(elapsed);
-            if (peca.getX() < screenWidth - 300 && peca.getWay() == 1) {
+            if (peca.getX() < screenWidth - 300 && peca.getWay() == 1)
+            {
                 peca.setImage(pecaImageNoArrow);
                 peca.setWay(-1);
                 arrow.initPosition(peca.getX(), peca.getY() - 50, peca.image.getHeight());
                 arrow.setMove(true);
             }
-            if (peca.getX() > screenWidth && peca.getWay() == -1) {
+            if (peca.getX() > screenWidth && peca.getWay() == -1)
+            {
                 peca.setImage(pecaImage);
                 peca.setWay(1);
                 pecaTime = System.currentTimeMillis();
@@ -235,7 +252,8 @@ public class Game {
         }
 
         // put here arrow collision detection
-        if (arrowCollisionDetection()) {
+        if (arrowCollisionDetection())
+        {
             Log.d("arrow collision", "true");
             arrow.setMove(false);
             // TODO: game over
@@ -245,7 +263,8 @@ public class Game {
         }
 
         // put here angel collision detection
-        if (angelCollisionDetection()) {
+        if (angelCollisionDetection())
+        {
             Log.d("angel collision", "true");
             // TODO: game won
             soundPool.play(sounds[Sounds.WIN], 1, 1, 1, 0, 1);
@@ -255,19 +274,23 @@ public class Game {
 
     }
 
-    private void drawText(Canvas canvas, String text) {
+    private void drawText(Canvas canvas, String text)
+    {
         canvas.drawText(text, canvas.getWidth() / 2, (canvas.getHeight() / 2) + (textPaint.getTextSize() / 2), textPaint);
         canvas.drawText(text, canvas.getWidth() / 2, (canvas.getHeight() / 2) + (textPaint.getTextSize() / 2), strokePaint);
     }
 
 
-    public void draw() {
+    public void draw()
+    {
         Canvas canvas = holder.lockCanvas();
 
-        if (canvas != null) {
+        if (canvas != null)
+        {
             canvas.drawColor(Color.WHITE);
 
-            switch (state) {
+            switch (state)
+            {
                 case LOST:
                     drawText(canvas, "Game over!");
                     break;
@@ -289,13 +312,16 @@ public class Game {
         }
     }
 
-    private void drawGame(Canvas canvas) {
+    private void drawGame(Canvas canvas)
+    {
         background.draw(canvas);
         devil.draw(canvas);
-        for (Cloud cloud : clouds) {
+        for (Cloud cloud : clouds)
+        {
             cloud.draw(canvas);
         }
-        if ((System.currentTimeMillis() - pecaTime) > 7000 + rndTime) {
+        if ((System.currentTimeMillis() - pecaTime) > 7000 + rndTime)
+        {
             peca.draw(canvas);
         }
         if (arrow.isMove())
@@ -305,28 +331,39 @@ public class Game {
         statistics.draw(canvas);
     }
 
-    public void onTouchEvent(MotionEvent event) {
-        if (state == State.RUNNING) {
-            if (event.getAction() == android.view.MotionEvent.ACTION_DOWN || event.getAction() == android.view.MotionEvent.ACTION_MOVE) {
+    public void onTouchEvent(MotionEvent event)
+    {
+        if (state == State.RUNNING)
+        {
+            if (event.getAction() == android.view.MotionEvent.ACTION_DOWN || event.getAction() == android.view.MotionEvent.ACTION_MOVE)
+            {
 
-                if (event.getY() < this.screenHeight / 2 && event.getX() < this.screenWidth / 2) {
+                if (event.getY() < this.screenHeight / 2 && event.getX() < this.screenWidth / 2)
+                {
                     devil.moveUp();
                 }
-                if (event.getY() > this.screenHeight / 2 && event.getX() < this.screenWidth / 2) {
+                if (event.getY() > this.screenHeight / 2 && event.getX() < this.screenWidth / 2)
+                {
                     devil.moveDown();
                 }
-                if (event.getX() < this.screenWidth - this.screenWidth / 4 && event.getX() > this.screenWidth / 2 && hit <=0) {
+                if (event.getX() < this.screenWidth - this.screenWidth / 4 && event.getX() > this.screenWidth / 2 && hit <= 0)
+                {
                     slowDown();
                 }
-                if (event.getX() > this.screenWidth - this.screenWidth / 4 && event.getX() > this.screenWidth / 2 && hit <=0) {
+                if (event.getX() > this.screenWidth - this.screenWidth / 4 && event.getX() > this.screenWidth / 2 && hit <= 0)
+                {
                     speedUp();
                 }
-            } else if (event.getAction() == android.view.MotionEvent.ACTION_UP) {
+            }
+            else if (event.getAction() == android.view.MotionEvent.ACTION_UP)
+            {
                 devil.moveStop();
-                if(hit <= 0)
+                if (hit <= 0)
                     normalSpeed();
             }
-        } else {
+        }
+        else
+        {
             state = State.RUNNING;
             startTime = System.currentTimeMillis();
             cloudTime = System.currentTimeMillis();
@@ -336,34 +373,40 @@ public class Game {
         }
     }
 
-    private void speedUp() {
+    private void speedUp()
+    {
         background.setSpeed(100);
         Cloud.setSpeed(20);
         angel.setWay(1);
     }
 
-    private void slowDown() {
+    private void slowDown()
+    {
         background.setSpeed(20);
         Cloud.setSpeed(5);
         angel.setWay(-1);
     }
 
-    private void normalSpeed() {
+    private void normalSpeed()
+    {
         background.setSpeed(50);
         Cloud.setSpeed(10);
         angel.setWay(0);
     }
 
     // Aleksa TODO: consider return type
-    public void cloudsUpdateAndCollisionDetection(long elapsed) {
+    public void cloudsUpdateAndCollisionDetection(long elapsed)
+    {
         Cloud cloud;
 
         iterator = clouds.iterator();
-        while (iterator.hasNext()) {
+        while (iterator.hasNext())
+        {
             cloud = iterator.next();
 
             // if cloud did not left screen
-            if (cloud.getX() > ((-cloud.getScreenRect().width()))) {
+            if (cloud.getX() > ((-cloud.getScreenRect().width())))
+            {
                 // update its position
                 cloud.update(elapsed);
 
@@ -372,13 +415,18 @@ public class Game {
                         devil.getScreenRect().contains(cloud.getScreenRect().right, cloud.getScreenRect().centerY()) //||
                     //devil.getScreenRect().contains((int)cloud.getY(), cloud.getScreenRect().centerX()) ||
                     //devil.getScreenRect().contains((int)cloud.getY()+cloud.getScreenRect().height(), cloud.getScreenRect().centerX())
-                        ) {
-                    if (cloud.getType() == Cloud.Type.BLACK) {
+                        )
+                {
+                    if (cloud.getType() == Cloud.Type.BLACK)
+                    {
                         // TODO: game over
                         state = State.LOST;
                         resetGame();
-                        Log.d("cloud", "black");break;
-                    } else if (cloud.getType() == Cloud.Type.WHITE) {
+                        Log.d("cloud", "black");
+                        break;
+                    }
+                    else if (cloud.getType() == Cloud.Type.WHITE)
+                    {
                         // TODO: slow down
                         slowDown();
                         hit = 1000;
@@ -386,13 +434,17 @@ public class Game {
                     }
                     iterator.remove();
                 }
-            } else {
+            }
+            else
+            {
                 // otherwise remove cloud and update statistics
-                if (cloud.getType() == Cloud.Type.BLACK) {
+                if (cloud.getType() == Cloud.Type.BLACK)
+                {
                     statistics.setAvoidedBlackClouds(statistics.getAvoidedBlackClouds() + 1);
                 }
 
-                if (cloud.getType() == Cloud.Type.WHITE) {
+                if (cloud.getType() == Cloud.Type.WHITE)
+                {
                     statistics.setAvoidedWhiteClouds(statistics.getAvoidedWhiteClouds() + 1);
                 }
 
@@ -401,30 +453,36 @@ public class Game {
         }
     }
 
-    public boolean arrowCollisionDetection() {
+    public boolean arrowCollisionDetection()
+    {
         // if devil collided with arrow
         if (devil.getScreenRect().contains(arrow.getScreenRect().left, arrow.getScreenRect().centerY()) ||
-                devil.getScreenRect().contains(arrow.getScreenRect().right, arrow.getScreenRect().centerY())) {
+                devil.getScreenRect().contains(arrow.getScreenRect().right, arrow.getScreenRect().centerY()))
+        {
             return true;
         }
         return false;
     }
 
-    public boolean angelCollisionDetection() {
+    public boolean angelCollisionDetection()
+    {
         // if devil collided with angel
         if (devil.getScreenRect().contains(angel.getScreenRect().left, angel.getScreenRect().centerY()) ||
                 devil.getScreenRect().contains(angel.getScreenRect().right, angel.getScreenRect().centerY()) // ||
             // angel.getScreenRect().contains((int) angel.getY(), angel.getScreenRect().centerX()) ||
             // angel.getScreenRect().contains((int) angel.getY() + angel.getScreenRect().height(), angel.getScreenRect().centerX())
-                ) {
+                )
+        {
             return true;
 
         }
         return false;
     }
-    public void resetGame(){
+
+    public void resetGame()
+    {
         init();
         clouds.clear();
-        hit=0;
+        hit = 0;
     }
 }
