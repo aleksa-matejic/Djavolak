@@ -21,6 +21,7 @@ import android.util.Log;
 import android.view.MotionEvent;
 import android.view.SurfaceHolder;
 
+import com.aleksa.matejic.app.GameActivity;
 import com.aleksa.matejic.app.MainActivity;
 import com.aleksa.matejic.app.R;
 import com.aleksa.matejic.app.utils.DatabaseHelper;
@@ -52,8 +53,6 @@ public class Game {
     private Angel angel;
     private Statistics statistics;
     private DatabaseHelper db;
-    //private Bat player;   ovde turi svoje objekte djavolak, peca djavolcica
-    //private Bat opponent;
 
     private Bitmap whiteCloudImage;
     private Bitmap blackCloudImage;
@@ -133,33 +132,31 @@ public class Game {
         arrow.init(arrowImage);
         angel.init(angelImage);
 
-//        sounds[Sounds.START] = soundPool.load(context, R.raw.start, 1);
-//        sounds[Sounds.WIN] = soundPool.load(context, R.raw.win, 1);
-//        sounds[Sounds.LOSE] = soundPool.load(context, R.raw.lose, 1);
-//        sounds[Sounds.BOUNCE1] = soundPool.load(context, R.raw.bounce1, 1);
-//        sounds[Sounds.BOUNCE2] = soundPool.load(context, R.raw.bounce2, 1);
-//        MainActivity.mp = MediaPlayer.create(context, R.raw.labirinto);
-//        MainActivity.mp.setLooping(true);
-//        MainActivity.mp.start();
+        sounds[Sounds.START] = soundPool.load(context, R.raw.start, 1);
+        sounds[Sounds.WIN] = soundPool.load(context, R.raw.win, 1);
+        sounds[Sounds.LOSE] = soundPool.load(context, R.raw.lose, 1);
+        sounds[Sounds.BOUNCE1] = soundPool.load(context, R.raw.bounce1, 1);
+        sounds[Sounds.BOUNCE2] = soundPool.load(context, R.raw.bounce2, 1);
+        GameActivity.mp = MediaPlayer.create(context, R.raw.labirinto);
+        GameActivity.mp.setLooping(true);
+        GameActivity.mp.start();
 
-//        soundPool.setOnLoadCompleteListener(new OnLoadCompleteListener()
-//        {
-//            public void onLoadComplete(SoundPool soundPool, int sampleId, int status)
-//            {
-//                if (sampleId == sounds[Sounds.START])
-//                {
-//                    soundPool.play(sounds[Sounds.START], 1, 1, 1, 0, 1);
-//                }
-//            }
-//        });
+        soundPool.setOnLoadCompleteListener(new OnLoadCompleteListener()
+        {
+            public void onLoadComplete(SoundPool soundPool, int sampleId, int status)
+            {
+                if (sampleId == sounds[Sounds.START])
+                {
+                    soundPool.play(sounds[Sounds.START], 1, 1, 1, 0, 1);
+                }
+            }
+        });
     }
 
     public void update(long elapsed) {
         if (state == State.RUNNING) {
             if (System.currentTimeMillis() - cloudTime > 60) {
                 if (rnd.nextInt(cloudShowUpSpeed) < cloudShowUp) {
-                    //ball.speedUp();
-                    //opponent.speedUp();
                     if (clouds.size() < 6) {
                         Cloud cloud;
                         if (rnd.nextInt(2) == 0) {
@@ -219,6 +216,7 @@ public class Game {
             Log.d("arrow collision", "true");
             arrow.setMove(false);
             // TODO: game over
+            soundPool.play(sounds[Sounds.LOSE], 1, 1, 1, 0, 1);
             state = State.LOST;
             resetGame();
         }
@@ -227,6 +225,7 @@ public class Game {
         if (angelCollisionDetection()) {
             Log.d("angel collision", "true");
             // TODO: game won
+            soundPool.play(sounds[Sounds.WIN], 1, 1, 1, 0, 1);
             state = State.WON;
             resetGame();
         }
