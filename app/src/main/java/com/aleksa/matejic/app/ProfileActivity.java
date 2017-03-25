@@ -12,7 +12,7 @@ import com.aleksa.matejic.app.utils.SharedPreferencesStore;
 
 public class ProfileActivity extends Activity
 {
-    // private TextView tvPlayerName;
+    private TextView tvPlayerName;
     private RelativeLayout rlPlayGame;
 
     @Override
@@ -21,10 +21,10 @@ public class ProfileActivity extends Activity
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_profile);
 
-        // tvPlayerName = (TextView) findViewById(R.id.tvPlayerName);
+        tvPlayerName = (TextView) findViewById(R.id.tvPlayerName);
         rlPlayGame = (RelativeLayout) findViewById(R.id.rlPlayGame);
 
-        // tvPlayerName.setText(SharedPreferencesStore.getInstance(this).readString(SharedPreferencesStore.getInstance(this).CURRENT_PLAYER));
+        tvPlayerName.setText(SharedPreferencesStore.getInstance(this).readString(SharedPreferencesStore.getInstance(this).CURRENT_PLAYER));
 
         rlPlayGame.setOnClickListener(new View.OnClickListener()
         {

@@ -11,7 +11,6 @@ import com.aleksa.matejic.app.utils.SharedPreferencesStore;
 
 public class GameActivity extends Activity
 {
-    // private TextView currentPlayer;
     public static MediaPlayer mp;
 
 
@@ -21,9 +20,6 @@ public class GameActivity extends Activity
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_game);
         setVolumeControlStream(AudioManager.STREAM_MUSIC);
-        // currentPlayer = (TextView) findViewById(R.id.currentPlayer);
-        // String currentPlayerStored = SharedPreferencesStore.getInstance(this.getApplicationContext()).readString(SharedPreferencesStore.getInstance(this).CURRENT_PLAYER);
-        // currentPlayer.setText(currentPlayerStored);
     }
     @Override
     protected void onPause() {

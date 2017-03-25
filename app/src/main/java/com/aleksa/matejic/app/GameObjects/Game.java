@@ -25,6 +25,7 @@ import com.aleksa.matejic.app.GameActivity;
 import com.aleksa.matejic.app.MainActivity;
 import com.aleksa.matejic.app.R;
 import com.aleksa.matejic.app.utils.DatabaseHelper;
+import com.aleksa.matejic.app.utils.SharedPreferencesStore;
 
 import java.util.Iterator;
 import java.util.LinkedList;
@@ -103,7 +104,6 @@ public class Game
         peca = new GuardianAngel(width, height);
         arrow = new Arrow(width, height);
         angel = new Angel(width, height);
-        statistics = new Statistics("Player Name HC");
         db = new DatabaseHelper(context);
         rnd = new Random();
         hit = 0;
@@ -136,10 +136,17 @@ public class Game
         strokePaint.setTypeface(Typeface.DEFAULT_BOLD);
         strokePaint.setStyle(Paint.Style.STROKE);
         strokePaint.setStrokeWidth(6);
+
+        GameActivity.mp = MediaPlayer.create(context, R.raw.labirinto);
+        GameActivity.mp.setLooping(true);
+        GameActivity.mp.start();
     }
 
     public void init()
     {
+        // String currentPlayerStored = SharedPreferencesStore.getInstance(context).readString(SharedPreferencesStore.getInstance(context).CURRENT_PLAYER);
+        // statistics = new Statistics(currentPlayerStored);
+        statistics = new Statistics("Player Name HC");
 
         Bitmap devilImage = BitmapFactory.decodeResource(resources, R.drawable.devil);
         Bitmap backgroundImage = BitmapFactory.decodeResource(resources, R.drawable.game_background);
@@ -163,9 +170,6 @@ public class Game
         sounds[Sounds.LOSE] = soundPool.load(context, R.raw.lose, 1);
         sounds[Sounds.BOUNCE1] = soundPool.load(context, R.raw.bounce1, 1);
         sounds[Sounds.BOUNCE2] = soundPool.load(context, R.raw.bounce2, 1);
-        GameActivity.mp = MediaPlayer.create(context, R.raw.labirinto);
-        GameActivity.mp.setLooping(true);
-        GameActivity.mp.start();
 
         soundPool.setOnLoadCompleteListener(new OnLoadCompleteListener()
         {
@@ -271,7 +275,6 @@ public class Game
             state = State.WON;
             resetGame();
         }
-
     }
 
     private void drawText(Canvas canvas, String text)

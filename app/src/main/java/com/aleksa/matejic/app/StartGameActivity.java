@@ -49,12 +49,12 @@ public class StartGameActivity extends Activity
             public void onItemClick(AdapterView<?> parent, View view, int position, long id)
             {
 
-                //                String playerName = lvPreviousProfiles.getItemAtPosition(position).toString();
-                //                boolean result = SharedPreferencesStore.getInstance(StartGameActivity.this).saveString(SharedPreferencesStore.getInstance(StartGameActivity.this).CURRENT_PLAYER, playerName);
-                //                if(!result)
-                //                {
-                //                    System.out.println("Current player name not saved to pref store!");
-                //                }
+                String playerName = lvPreviousProfiles.getItemAtPosition(position).toString();
+                boolean result = SharedPreferencesStore.getInstance(StartGameActivity.this).saveString(SharedPreferencesStore.getInstance(StartGameActivity.this).CURRENT_PLAYER, playerName);
+                if (!result)
+                {
+                    System.out.println("Current player name not saved to pref store!");
+                }
 
                 Intent myIntent = new Intent(StartGameActivity.this, ProfileActivity.class);
                 startActivity(myIntent);

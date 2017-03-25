@@ -113,13 +113,13 @@ public class Statistics
     public void generateScore()
     {
         // Aleksa TODO: implementation
-        this.score = ((int) (this.devilDistance) + (this.avoidedWhiteClouds * 100) - (this.avoidedBlackClouds * 200) + (this.avoidedArrows * 300));
+        this.score = ((int) (this.devilDistance) - ((this.avoidedWhiteClouds * 100) + (this.avoidedBlackClouds * 200) + (this.avoidedArrows * 300)));
     }
 
     public void update()
     {
         // Aleksa TODO: implementation
-        // score += 50;
+        this.devilDistance += 5;
         generateScore();
     }
 

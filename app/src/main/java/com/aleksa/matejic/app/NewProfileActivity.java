@@ -35,11 +35,11 @@ public class NewProfileActivity extends Activity
                     return;
                 }
 
-                // boolean result = SharedPreferencesStore.getInstance(NewProfileActivity.this).saveString(SharedPreferencesStore.getInstance(NewProfileActivity.this).CURRENT_PLAYER, etInputName.getText().toString());
-                // if(!result)
-                // {
-                //     System.out.println("Current player name not saved to pref store!");
-                // }
+                boolean result = SharedPreferencesStore.getInstance(NewProfileActivity.this).saveString(SharedPreferencesStore.getInstance(NewProfileActivity.this).CURRENT_PLAYER, etInputName.getText().toString());
+                if (!result)
+                {
+                    System.out.println("Current player name not saved to pref store!");
+                }
 
                 Intent myIntent = new Intent(NewProfileActivity.this, GameActivity.class);
                 startActivity(myIntent);
