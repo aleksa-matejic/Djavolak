@@ -242,6 +242,9 @@ public class Game
         arrow.update(elapsed);
         statistics.update();
 
+        if(arrow.getX()==0)
+            statistics.setAvoidedArrows(statistics.getAvoidedArrows() + 1);
+
         // put here clouds update and collision detection
         cloudsUpdateAndCollisionDetection(elapsed);
 
