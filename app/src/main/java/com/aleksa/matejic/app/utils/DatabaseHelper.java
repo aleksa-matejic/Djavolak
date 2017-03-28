@@ -71,7 +71,7 @@ public class DatabaseHelper extends SQLiteOpenHelper
     {
         SQLiteDatabase db = this.getWritableDatabase();
 
-        Cursor result = db.rawQuery("SELECT * FROM " + TABLE_NAME, null);
+        Cursor result = db.rawQuery("SELECT * FROM " + TABLE_NAME + " ORDER BY score", null);
 
         return result;
     }

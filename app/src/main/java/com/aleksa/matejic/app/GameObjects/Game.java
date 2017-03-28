@@ -17,12 +17,14 @@ import android.media.AudioManager;
 import android.media.MediaPlayer;
 import android.media.SoundPool;
 import android.media.SoundPool.OnLoadCompleteListener;
+import android.os.Vibrator;
 import android.util.Log;
 import android.view.MotionEvent;
 import android.view.SurfaceHolder;
 
 import com.aleksa.matejic.app.GameActivity;
 import com.aleksa.matejic.app.MainActivity;
+import com.aleksa.matejic.app.OptionsActivity;
 import com.aleksa.matejic.app.R;
 import com.aleksa.matejic.app.utils.DatabaseHelper;
 import com.aleksa.matejic.app.utils.SharedPreferencesStore;
@@ -76,6 +78,11 @@ public class Game
     private long pecaTime;
     private long slowDownTime;
 
+    Vibrator vibrator;
+
+    boolean isSoundOn;
+    boolean isVibratorOn;
+
     private int cloudShowUpSpeed;
     private int cloudShowUp;
     private int rndTime;
@@ -85,6 +92,7 @@ public class Game
     private int hit;
 
     private int difficult;
+    private int score;
 
     private Random rnd;
 
@@ -105,10 +113,9 @@ public class Game
         arrow = new Arrow(width, height);
         angel = new Angel(width, height);
         db = new DatabaseHelper(context);
+        vibrator = (Vibrator) this.context.getSystemService(Context.VIBRATOR_SERVICE);
         rnd = new Random();
         hit = 0;
-        //player = new Bat(width, height, Bat.Position.LEFT);
-        //opponent = new Bat(width, height, Bat.Position.RIGHT);
 
         textPaint = new Paint();
         textPaint.setTextAlign(Align.CENTER);
@@ -137,16 +144,21 @@ public class Game
         strokePaint.setStyle(Paint.Style.STROKE);
         strokePaint.setStrokeWidth(6);
 
+        isSoundOn = SharedPreferencesStore.getInstance(context).readBoolean(SharedPreferencesStore.getInstance(context).SOUNDS);
+        isVibratorOn = SharedPreferencesStore.getInstance(context).readBoolean(SharedPreferencesStore.getInstance(context).VIBRATION);
+
         GameActivity.mp = MediaPlayer.create(context, R.raw.labirinto);
         GameActivity.mp.setLooping(true);
-        GameActivity.mp.start();
+        GameActivity.mp.setVolume(0.5f,0.5f);
+        if(isSoundOn)
+            GameActivity.mp.start();
     }
 
     public void init()
     {
-        // String currentPlayerStored = SharedPreferencesStore.getInstance(context).readString(SharedPreferencesStore.getInstance(context).CURRENT_PLAYER);
-        // statistics = new Statistics(currentPlayerStored);
-        statistics = new Statistics("Player Name HC");
+        String currentPlayerStored = SharedPreferencesStore.getInstance(context).readString(SharedPreferencesStore.getInstance(context).CURRENT_PLAYER);
+        statistics = new Statistics(currentPlayerStored);
+        //statistics = new Statistics("Player Name HC");
 
         Bitmap devilImage = BitmapFactory.decodeResource(resources, R.drawable.devil);
         Bitmap backgroundImage = BitmapFactory.decodeResource(resources, R.drawable.game_background);
@@ -175,7 +187,7 @@ public class Game
         {
             public void onLoadComplete(SoundPool soundPool, int sampleId, int status)
             {
-                if (sampleId == sounds[Sounds.START])
+                if (sampleId == sounds[Sounds.START] && isSoundOn)
                 {
                     soundPool.play(sounds[Sounds.START], 1, 1, 1, 0, 1);
                 }
@@ -261,7 +273,10 @@ public class Game
             Log.d("arrow collision", "true");
             arrow.setMove(false);
             // TODO: game over
-            soundPool.play(sounds[Sounds.LOSE], 1, 1, 1, 0, 1);
+            if(isSoundOn)
+                soundPool.play(sounds[Sounds.LOSE], 1, 1, 1, 0, 1);
+            if(isVibratorOn)
+                vibrator.vibrate(700);
             state = State.LOST;
             resetGame();
         }
@@ -271,8 +286,13 @@ public class Game
         {
             Log.d("angel collision", "true");
             // TODO: game won
-            soundPool.play(sounds[Sounds.WIN], 1, 1, 1, 0, 1);
+            if(isSoundOn)
+                soundPool.play(sounds[Sounds.WIN], 1, 1, 1, 0, 1);
+            if(isVibratorOn)
+                vibrator.vibrate(1200);
             state = State.WON;
+            score = statistics.getScore();
+            db.insertData(statistics);
             resetGame();
         }
     }
@@ -304,7 +324,7 @@ public class Game
                     drawGame(canvas);
                     break;
                 case WON:
-                    drawText(canvas, "Your score is " + statistics.getScore());
+                    drawText(canvas, "Your score is " + score);
                     break;
                 default:
                     break;
@@ -373,6 +393,7 @@ public class Game
             pecaTime = System.currentTimeMillis();
             cloudShowUpSpeed = 30000;
             cloudShowUp = 2000;
+            score=0;
         }
     }
 
@@ -424,6 +445,10 @@ public class Game
                     {
                         // TODO: game over
                         state = State.LOST;
+                        if(isSoundOn)
+                            soundPool.play(sounds[Sounds.LOSE], 1, 1, 1, 0, 1);
+                        if(isVibratorOn)
+                            vibrator.vibrate(700);
                         resetGame();
                         Log.d("cloud", "black");
                         break;
@@ -433,6 +458,10 @@ public class Game
                         // TODO: slow down
                         slowDown();
                         hit = 400;
+                        if(isSoundOn)
+                            soundPool.play(sounds[Sounds.BOUNCE2], 1, 1, 1, 0, 1);
+                        if(isVibratorOn)
+                            vibrator.vibrate(200);
                         Log.d("cloud", "white");
                     }
                     iterator.remove();
