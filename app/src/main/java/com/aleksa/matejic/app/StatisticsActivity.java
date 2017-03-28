@@ -34,22 +34,22 @@ public class StatisticsActivity extends Activity
             TextView tv;
             // filling in cells
             tv = (TextView) tableRow.findViewById(R.id.playerNameCell);
-            tv.setText(result.getString(1));
+            tv.setText(result.getString(result.getColumnIndexOrThrow(db.playerName)));
 
             tv = (TextView) tableRow.findViewById(R.id.devilDistanceCell);
-            tv.setText(result.getString(2));
+            tv.setText(result.getString(result.getColumnIndexOrThrow(db.distance)));
 
             tv = (TextView) tableRow.findViewById(R.id.avoidedBlackCloudsCell);
-            tv.setText(result.getString(3));
+            tv.setText(result.getString(result.getColumnIndexOrThrow(db.avoidedBlackClouds)));
 
             tv = (TextView) tableRow.findViewById(R.id.avoidedWhiteCloudsCell);
-            tv.setText(result.getString(4));
+            tv.setText(result.getString(result.getColumnIndexOrThrow(db.avoidedWhiteClouds)));
 
             tv = (TextView) tableRow.findViewById(R.id.avoidedArrowsCell);
-            tv.setText(result.getString(5));
+            tv.setText(result.getString(result.getColumnIndexOrThrow(db.avoidedArrows)));
 
             tv = (TextView) tableRow.findViewById(R.id.scoreCell);
-            tv.setText(result.getString(6));
+            tv.setText(result.getString(result.getColumnIndexOrThrow(db.score)));
 
             // add row to the table
             tlStatistics.addView(tableRow);
