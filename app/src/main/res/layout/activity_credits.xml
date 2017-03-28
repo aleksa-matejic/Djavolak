@@ -6,4 +6,19 @@
     android:layout_height="match_parent"
     android:background="@drawable/background">
 
+    <RelativeLayout
+        android:id="@+id/rlCredits"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:gravity="center">
+
+        <TextView
+            android:textSize="@dimen/button_text_size"
+            android:text="All credit goes to Aleksa Matejic"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:id="@+id/tvCredits"/>
+    </RelativeLayout>
+
 </RelativeLayout>
