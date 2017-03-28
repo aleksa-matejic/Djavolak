@@ -365,7 +365,7 @@ public class Game
                     normalSpeed();
             }
         }
-        else
+        else if(event.getX() > screenWidth/2 - 300 && event.getX() < screenWidth/2 + 300 && event.getY() > screenHeight/2 - 50 && event.getY() < screenHeight/2 + 50 )
         {
             state = State.RUNNING;
             startTime = System.currentTimeMillis();
@@ -432,7 +432,7 @@ public class Game
                     {
                         // TODO: slow down
                         slowDown();
-                        hit = 1000;
+                        hit = 400;
                         Log.d("cloud", "white");
                     }
                     iterator.remove();
